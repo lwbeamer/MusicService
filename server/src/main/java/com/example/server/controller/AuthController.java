@@ -18,7 +18,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -34,20 +41,25 @@ public class AuthController {
     PasswordEncoder passwordEncoder;
     @Autowired
     JwtUtils jwtUtils;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequest.getUsername(),
+                loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        String role = userDetails.getAuthorities().toString();
+        String roles = userDetails.getAuthorities().toString();
+        System.out.println();
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                role));
+                roles));
     }
+
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
 
@@ -68,7 +80,7 @@ public class AuthController {
                 passwordEncoder.encode(signupRequest.getPassword()));
 
         String reqRoles = signupRequest.getRole();
-        Role roles ;
+        Role roles;
 
         if (reqRoles == null) {
             Role userRole = roleRepository
@@ -76,28 +88,28 @@ public class AuthController {
                     .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
             roles = userRole;
         } else {
-                switch (reqRoles) {
-                    case "admin":
-                        Role adminRole = roleRepository
-                                .findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error, Role ADMIN is not found"));
-                        roles=adminRole;
+            switch (reqRoles) {
+                case "admin":
+                    Role adminRole = roleRepository
+                            .findByName(ERole.ROLE_ADMIN)
+                            .orElseThrow(() -> new RuntimeException("Error, Role ADMIN is not found"));
+                    roles = adminRole;
 
-                        break;
-                    case "organization":
-                        Role modRole = roleRepository
-                                .findByName(ERole.ROLE_ORGANIZATION)
-                                .orElseThrow(() -> new RuntimeException("Error, Role MODERATOR is not found"));
-                        roles = modRole;
+                    break;
+                case "organization":
+                    Role modRole = roleRepository
+                            .findByName(ERole.ROLE_ORGANIZATION)
+                            .orElseThrow(() -> new RuntimeException("Error, Role MODERATOR is not found"));
+                    roles = modRole;
 
-                        break;
+                    break;
 
-                    default:
-                        Role userRole = roleRepository
-                                .findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
-                        roles = userRole;
-                }
+                default:
+                    Role userRole = roleRepository
+                            .findByName(ERole.ROLE_USER)
+                            .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
+                    roles = userRole;
+            }
 
         }
         user.setRole(roles);
