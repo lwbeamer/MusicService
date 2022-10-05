@@ -2,6 +2,7 @@ package com.example.server.entity;
 
 import com.example.server.entity.entityhelper.ERole;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
