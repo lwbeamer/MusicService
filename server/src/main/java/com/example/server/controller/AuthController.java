@@ -1,9 +1,12 @@
 package com.example.server.controller;
 
 import com.example.server.config.JwtUtils;
+import com.example.server.entity.Country;
 import com.example.server.entity.Role;
-import com.example.server.entity.User;
+
+import com.example.server.entity.Uzer;
 import com.example.server.entity.entityhelper.ERole;
+import com.example.server.repository.CountryRepository;
 import com.example.server.repository.RoleRepository;
 import com.example.server.repository.UserRepository;
 import com.example.server.request.LoginRequest;
@@ -38,6 +41,8 @@ public class AuthController {
     @Autowired
     RoleRepository roleRepository;
     @Autowired
+    CountryRepository countryRepository;
+    @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
     JwtUtils jwtUtils;
@@ -45,39 +50,43 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(),
+                loginRequest.getLogin(),
                 loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String roles = userDetails.getAuthorities().toString();
-        System.out.println();
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
+                userDetails.getName(),
+                userDetails.getSurname(),
                 userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
+                roles,
+                userDetails.getSubId(),
+                userDetails.getSubStart(),
+                userDetails.getCountryId()));
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signupRequest) {
 
-        if (userRepository.existsByUsername(signupRequest.getUsername())) {
+        if (userRepository.existsByLogin(signupRequest.getLogin())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is exist"));
         }
 
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is exist"));
-        }
 
-        User user = new User(signupRequest.getUsername(),
-                signupRequest.getEmail(),
-                passwordEncoder.encode(signupRequest.getPassword()));
+        Uzer user = new Uzer(signupRequest.getName(),
+                signupRequest.getSurname(),
+                signupRequest.getLogin(),
+                passwordEncoder.encode(signupRequest.getPassword())
+        );
+
+        Country country = countryRepository.findByName(signupRequest.getCountryId()).orElseThrow(() -> new RuntimeException("Error, This country is not found"));
+        ;
+        user.setCountryId(country);
 
         String reqRoles = signupRequest.getRole();
         Role roles;
@@ -103,7 +112,12 @@ public class AuthController {
                     roles = modRole;
 
                     break;
-
+                case "artist":
+                    Role artistRole = roleRepository
+                            .findByName(ERole.ROLE_ARTIST)
+                            .orElseThrow(() -> new RuntimeException("Error, Role ARTIST is not found"));
+                    roles = artistRole;
+                    break;
                 default:
                     Role userRole = roleRepository
                             .findByName(ERole.ROLE_USER)
