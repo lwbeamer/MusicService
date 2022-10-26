@@ -1,6 +1,6 @@
 package com.example.server.config;
 
-import com.example.server.service.UserDetailsImpl;
+import com.example.server.dto.UserDetailsImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;

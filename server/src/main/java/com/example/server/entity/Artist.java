@@ -26,14 +26,14 @@ public class Artist {
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "Artists_Albums",
-            joinColumns = { @JoinColumn(name = "id_artist") },
+            joinColumns = {@JoinColumn(name = "id_artist")},
             inverseJoinColumns = {@JoinColumn(name = "id_album")}
     )
     private Set<Album> albums = new HashSet<Album>();
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "Artists_Song",
-            joinColumns = { @JoinColumn(name = "id_artist") },
+            joinColumns = {@JoinColumn(name = "id_artist")},
             inverseJoinColumns = {@JoinColumn(name = "id_song")}
     )
 
@@ -41,11 +41,15 @@ public class Artist {
     @Column(nullable = false, length = 256)
     private String description;
 
+    @Column(nullable = false, length = 32)
+    private String name;
+
     @JoinColumn(name = "id_org")
     @ManyToOne(fetch = FetchType.EAGER)
     private Organisation organisation;
 
-    public Artist(String description) {
+    public Artist(String name, String description) {
+        this.name = name;
         this.description = description;
     }
 }

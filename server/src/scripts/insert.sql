@@ -1,6 +1,6 @@
 INSERT INTO subscription(name, description, price)
 VALUES ('Базовая', 'Базовая подписка на одного человека.', 199),
-       ('Студентческая', 'Подписка для студентов.', 89),
+       ('Студенческая', 'Подписка для студентов.', 89),
        ('Семейная', 'Подписка на группу человек.' ||
                     'Могуть использовать до 4 устройств', 399);
 
@@ -12,17 +12,6 @@ VALUES ('Китай'),
        ('Россия'),
        ('Испания');
 
-INSERT INTO Uzer(name, login, password, id_sub, id_country)
-VALUES ('Кошкарбаев Никита',
-        'sullensoul',
-        '12876641b3772023168cf601c72a81008ac77bc0a59918f526338247564507fd',
-        2,
-        4),
-       ('Нуруллаев Даниил',
-        'nureasy',
-        'dac6c150f6f2f17c9df1b63ef4502213c6257c6fd5ea1a94f73074a6dd972cbd',
-        2,
-        4);
 
 INSERT INTO organisation(name, description, id_country)
 VALUES ('Warner Music',
@@ -41,37 +30,13 @@ VALUES ('Warner Music',
         'Неизвестный музыкальный лейбл.',
         4);
 
-INSERT INTO artist(login, password, name, description, id_org, id_country)
-VALUES ('sqwr',
-        '8395ba6440698d06556bb48687f2aa6ea98ebeb3be70e68e4ab0f25012e855b3',
-        'Sqwore',
-        'Российский хайперпоп-исполнитель. Занимается музыкой с 2010 года, ' ||
+INSERT INTO artist(description, id_uzer, name)
+VALUES ('Российский хайперпоп-исполнитель. Занимается музыкой с 2010 года, ' ||
         'но свою активность под никнеймом Sqwore начал 4 декабря 2019 года.' ||
         'Первую большую популярность получил после завирусившегося трека ' ||
         '«Холодное оружие» с rizza',
-        4,
-        4),
-       ('dltzk',
-        'cdb57e2ec4bb416526f327d6ac6f364791c42bf7fd45bd11251092cb6d23b5dd',
-        'dltzk',
-        'Джейн Ремовер, ранее известная как dltzk (р. 2003), - ' ||
-        'американский продюсер, автор песен и артистка из Нью-Джерси.',
-        4,
-        2),
-       ('tommyhellatrigger',
-        '70e872986ed1d5ed8de6ebbf6110787cc7ef0e43f277f147a542e0bffc48d6ee',
-        'kizaru',
-        'Российский и испанский хип-хоп-исполнитель родом из Санкт-Петербурга. ' ||
-        'Проживает в Барселоне. Участник и основатель творческого объединения ' ||
-        '«HAUNTED FAMILY»',
-        1,
-        5),
-       ('smokepurpp',
-        '7ef0e43f277f147a542e0bffc48d6ee70e872986ed1d5ed8de6ebbf6110787cc',
-        'Smokepurpp',
-        null,
-        2,
-        2);
+        6, 'Sqwore');
+
 
 INSERT INTO album(name, description)
 VALUES ('Eve', 'Released November 26, 2021'),
@@ -83,24 +48,12 @@ VALUES ('Eve', 'Released November 26, 2021'),
                         'Tory Lanez, Smokepurpp и Hoodrich ' ||
                         'Pablo Juan.');
 
-INSERT INTO artists_albums(id_artist, id_album)
-VALUES (1, 1),
-       (3, 2);
 
 INSERT INTO genre(name)
 VALUES ('Hyperpop'),
        ('Trap');
 
-INSERT INTO admin(login, password, name)
-VALUES ('admin',
-        '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
-        'admin'),
-       ('sullensoul',
-        '3b792dec2fd2feced16a76a5f42230a3740f503ce063b8aaf7eaa7a883d85bbc',
-        'sullensoul');
-
-
-INSERT INTO song(name, duration, id_album, id_admin, id_genre)
+INSERT INTO song(name, duration, id_album, id_genre,link)
 VALUES ('Intro',
         89,
         2,

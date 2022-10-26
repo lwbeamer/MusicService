@@ -20,7 +20,7 @@ public class Album {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "DEFAULT 'Отсутствуют треки'",nullable = false,length = 32)
+    @Column(length = 32)
     private String type;
 
     @ManyToMany(mappedBy = "albums")

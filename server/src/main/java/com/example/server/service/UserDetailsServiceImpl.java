@@ -1,5 +1,6 @@
 package com.example.server.service;
 
+import com.example.server.dto.UserDetailsImpl;
 import com.example.server.entity.Uzer;
 import com.example.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

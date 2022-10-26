@@ -1,11 +1,13 @@
 package com.example.server.controller;
 
 import com.example.server.config.JwtUtils;
+import com.example.server.entity.Admin;
 import com.example.server.entity.Country;
 import com.example.server.entity.Role;
 
 import com.example.server.entity.Uzer;
 import com.example.server.entity.entityhelper.ERole;
+import com.example.server.repository.AdminRepository;
 import com.example.server.repository.CountryRepository;
 import com.example.server.repository.RoleRepository;
 import com.example.server.repository.UserRepository;
@@ -13,7 +15,7 @@ import com.example.server.request.LoginRequest;
 import com.example.server.request.SignupRequest;
 import com.example.server.response.JwtResponse;
 import com.example.server.response.MessageResponse;
-import com.example.server.service.UserDetailsImpl;
+import com.example.server.dto.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -36,6 +38,9 @@ import java.util.stream.Collectors;
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
+
+    @Autowired
+    AdminRepository adminRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -74,7 +79,7 @@ public class AuthController {
         if (userRepository.existsByLogin(signupRequest.getLogin())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is exist"));
+                    .body(new MessageResponse("Error: Данный логин занят!"));
         }
 
 
@@ -84,8 +89,7 @@ public class AuthController {
                 passwordEncoder.encode(signupRequest.getPassword())
         );
 
-        Country country = countryRepository.findByName(signupRequest.getCountryId()).orElseThrow(() -> new RuntimeException("Error, This country is not found"));
-        ;
+        Country country = countryRepository.findByName(signupRequest.getCountryId()).orElseThrow(() -> new RuntimeException("Error: Такой страны не существует!"));
         user.setCountryId(country);
 
         String reqRoles = signupRequest.getRole();
@@ -94,40 +98,46 @@ public class AuthController {
         if (reqRoles == null) {
             Role userRole = roleRepository
                     .findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
+                    .orElseThrow(() -> new RuntimeException("Error: Роли USER не существует!"));
             roles = userRole;
         } else {
             switch (reqRoles) {
                 case "admin":
                     Role adminRole = roleRepository
                             .findByName(ERole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error, Role ADMIN is not found"));
+                            .orElseThrow(() -> new RuntimeException("Error: Роли ADMIN не существует!"));
                     roles = adminRole;
 
                     break;
                 case "organization":
                     Role modRole = roleRepository
                             .findByName(ERole.ROLE_ORGANIZATION)
-                            .orElseThrow(() -> new RuntimeException("Error, Role MODERATOR is not found"));
+                            .orElseThrow(() -> new RuntimeException("Error: Роли ORGANISATION не существует!"));
                     roles = modRole;
 
                     break;
                 case "artist":
                     Role artistRole = roleRepository
                             .findByName(ERole.ROLE_ARTIST)
-                            .orElseThrow(() -> new RuntimeException("Error, Role ARTIST is not found"));
+                            .orElseThrow(() -> new RuntimeException("Error: Роли ARTIST не существует!"));
                     roles = artistRole;
                     break;
                 default:
                     Role userRole = roleRepository
                             .findByName(ERole.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
+                            .orElseThrow(() -> new RuntimeException("Error: Роли USER не существует!"));
                     roles = userRole;
             }
 
         }
         user.setRole(roles);
         userRepository.save(user);
-        return ResponseEntity.ok(new MessageResponse("User CREATED"));
+        if (reqRoles.equals("admin")) {
+            Optional<Uzer> user1 = userRepository.findByLogin(signupRequest.getLogin());
+            Admin admin = new Admin();
+            admin.setUzerId(user1.get());
+            adminRepository.save(admin);
+        }
+        return ResponseEntity.ok(new MessageResponse("Пользователь успешно зарегистрирован!"));
     }
 }

@@ -1,4 +1,4 @@
-package com.example.server.service;
+package com.example.server.dto;
 
 import com.example.server.entity.Country;
 import com.example.server.entity.Subscription;
