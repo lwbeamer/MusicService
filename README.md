@@ -18,5 +18,55 @@
 
 У пользователя с ролью "Admin" добавляется дополнительные вкладки "Проверить песни","Создать юзера" и "Создать Организацию".В "Проверить песню" админ проверяет песни артистов на цензуру.Во вкладке "Создать юзера" админ может создать юзеров со всеми возможными ролями: "Admin","Artist","User". Во вклдаке "Создать организацию" админ создает организацию в которую может вступить пользователь с ролью "Artist".
 
-
-
+## Запросы к серверу
+### Регистрация пользователя
+requestType : POST   
+url : http://localhost:8080/api/admin/addOrganisation  
+request :  
+{  
+    "name" : "Name",  
+    "surname" : "Surname",  
+    "login" : "Login",  
+    "password" : "password",  
+    "role" : "admin",  
+    "countryId" : "Россия"  
+}  
+### Авторизация пользователя
+requestType : POST   
+url : http://localhost:8080/api/auth/signin  
+request :  
+{  
+    "login" : "Login",  
+    "password" : "password"  
+}  
+### Добавление подписки пользователю
+requestType : POST   
+url : http://localhost:8080/api/user/addSub  
+request :  
+{  
+    "login" : "nik23",  
+    "sub" : "Студенческая"  
+}  
+### Добавление артиста в базу
+requestType : POST    
+url : http://localhost:8080/api/artist/addArtist  
+request :  
+{  
+    "description" : "Описание артиста!",  
+    "login" : "login",  
+    "name" : "nickname"  
+}
+### Получить все организации(Получить список организация может Artist и Admin)
+requestType : GET  
+url : http://localhost:8080/api/artist/getOrganisation  
+header : Authorization Bearer + token  
+### Добавить организацию(Создать организацию может только Admin)
+requestType : POST  
+url : http://localhost:8080/api/admin/addOrganisation  
+header : Authorization Bearer + token  
+request :  
+{  
+    "description" : "описание организации",  
+    "name" : "orgName",  
+    "countryName" : "Россия"  
+}  
