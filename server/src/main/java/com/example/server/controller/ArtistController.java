@@ -1,7 +1,6 @@
 package com.example.server.controller;
 
-import com.example.server.request.AlbumCreateRequest;
-import com.example.server.request.ArtistRequest;
+import com.example.server.request.*;
 import com.example.server.response.MessageResponse;
 import com.example.server.service.ArtistService;
 import com.example.server.service.serviceInterface.ArtistServiceInterface;
@@ -37,5 +36,23 @@ public class ArtistController {
         artistService.addAlbum(Long.parseLong(albumCreateRequest.getUserId()),albumCreateRequest.getName(),albumCreateRequest.getDescription());
         return ResponseEntity.ok(new MessageResponse("Альбом добавлен!"));
     }
+    @PostMapping("/setOragnisationToArtist")
+    @PreAuthorize("hasRole('ARTIST')")
+    public ResponseEntity<?> setOrg(@RequestBody SetOrganisationRequest setOrganisationRequest){
+        artistService.setOrganisation(Long.parseLong(setOrganisationRequest.getUserId()),Long.parseLong(setOrganisationRequest.getOrgId()));
+        return ResponseEntity.ok(new MessageResponse("Вы успешно вступили в организацию!"));
+    }
+    @PostMapping("/quitFromOrganisation")
+    @PreAuthorize("hasRole('ARTIST')")
+    public ResponseEntity<?> quitFromOrg(@RequestBody QuitFromOrgRequest quitFromOrgRequest){
+        artistService.quitFromOrganisation(Long.parseLong(quitFromOrgRequest.getUserId()));
+        return ResponseEntity.ok(new MessageResponse("Вы вышли из организации!"));
+    }
 
+    @PostMapping("/addSong")
+    @PreAuthorize("hasRole('ARTIST')")
+    public ResponseEntity<?> addSong(@RequestBody SongCreateRequest songCreateRequest){
+        artistService.addSong(songCreateRequest.getUserId(),songCreateRequest.getName(),songCreateRequest.getDuration(), songCreateRequest.getAlbumName(), songCreateRequest.getGenre(), songCreateRequest.getLink());
+        return ResponseEntity.ok(new MessageResponse("Песня добавлена!"));
+    }
 }

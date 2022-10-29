@@ -9,6 +9,20 @@ BEGIN
 END
 $$;
 
+CREATE OR REPLACE FUNCTION get_artist_album(artist_id BIGINT, albumName varchar(32)) returns int
+AS
+$$
+BEGIN
+    RETURN(SELECT id_album
+    FROM artists_albums
+             INNER JOIN album a on a.id = artists_albums.id_album
+    WHERE albumName = a.name
+      and artist_id = id_artist
+    );
+
+END
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE PROCEDURE get_song_for_users()
     LANGUAGE plpgsql AS
 $$

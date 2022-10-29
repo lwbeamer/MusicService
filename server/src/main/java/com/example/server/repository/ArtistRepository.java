@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface ArtistRepository extends JpaRepository<Artist,Long> {
     Optional<Artist> findByUzerId(Uzer userId);
+    Optional<Artist> findByName(String name);
 }

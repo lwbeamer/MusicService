@@ -1,17 +1,12 @@
 package com.example.server.service;
 
-import com.example.server.entity.Album;
-import com.example.server.entity.Artist;
-import com.example.server.entity.Organisation;
-import com.example.server.entity.Uzer;
-import com.example.server.repository.AlbumRepository;
-import com.example.server.repository.ArtistRepository;
-import com.example.server.repository.OrganisationRepository;
-import com.example.server.repository.UserRepository;
+import com.example.server.entity.*;
+import com.example.server.repository.*;
 import com.example.server.service.serviceInterface.ArtistServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,9 +19,12 @@ public class ArtistService implements ArtistServiceInterface {
     private AlbumRepository albumRepository;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private GenreRepository genreRepository;
     @Autowired
     private OrganisationRepository organisationRepository;
+    @Autowired
+    private SongRepository songRepository;
 
     @Override
     public void addArtist(String description, String login, String name) {
@@ -52,6 +50,35 @@ public class ArtistService implements ArtistServiceInterface {
         artist.get().getAlbums().add(album);
         album.getArtists().add(artist.get());
         albumRepository.save(album);
+        artistRepository.save(artist.get());
+    }
+
+    @Override
+    public void setOrganisation(Long userId, Long orgId) {
+        Optional<Organisation> org = organisationRepository.findById(orgId);
+        Optional<Uzer> user = userRepository.findById(userId);
+        Optional<Artist> artist = artistRepository.findByUzerId(user.get());
+        artist.get().setOrganisation(org.get());
+        artistRepository.save(artist.get());
+    }
+
+    @Override
+    public void quitFromOrganisation(Long userId) {
+        Optional<Uzer> user = userRepository.findById(userId);
+        Optional<Artist> artist = artistRepository.findByUzerId(user.get());
+        artist.get().setOrganisation(null);
+        artistRepository.save(artist.get());
+    }
+
+    @Override
+    public void addSong(Long userId, String name, Long duration, String albumName, String genre, String link) {
+        Optional<Uzer> user = userRepository.findById(userId);
+        Optional<Artist> artist = artistRepository.findByUzerId(user.get());
+        Optional<Album> album = albumRepository.findById(Long.parseLong(albumRepository.getArtistAlbum(artist.get().getId(), albumName)));
+        Optional<Genre> genre1 = genreRepository.findByName(genre);
+        Song song = new Song(name, duration, album.get(), null, genre1.get(), link);
+        song.setSubStart(OffsetDateTime.now());
+        artist.get().getSongs().add(song);
         artistRepository.save(artist.get());
     }
 }

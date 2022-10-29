@@ -3,6 +3,7 @@ package com.example.server.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+
 public class Artist {
 
     @Id
@@ -29,6 +31,7 @@ public class Artist {
             joinColumns = {@JoinColumn(name = "id_artist")},
             inverseJoinColumns = {@JoinColumn(name = "id_album")}
     )
+
     private Set<Album> albums = new HashSet<Album>();
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(

@@ -4,6 +4,9 @@ import com.example.server.entity.Subscription;
 import com.example.server.entity.Uzer;
 import com.example.server.repository.SubscriptionRepository;
 import com.example.server.repository.UserRepository;
+import com.example.server.request.CheckSongRequest;
+import com.example.server.request.FindSongRequest;
+import com.example.server.request.GetPlayListRequest;
 import com.example.server.request.SubRequest;
 import com.example.server.response.MessageResponse;
 import com.example.server.service.serviceInterface.UserServiceInterface;
@@ -34,4 +37,21 @@ public class UserController {
         userService.setSub(user, sub);
         return ResponseEntity.ok(new MessageResponse("Подписка успешно обновлена!"));
     }
+
+    @PostMapping("/addSongToPlaylist")
+    public ResponseEntity<?> addSongToPlayList(@RequestBody CheckSongRequest checkSongRequest) {
+        userService.addSongToPlayList(checkSongRequest.getUserId(), checkSongRequest.getSongId());
+        return ResponseEntity.ok(new MessageResponse("Песня добавлена в плейлист!"));
+    }
+
+    @PostMapping("/getPlayList")
+    public  ResponseEntity<?> getPlayList(@RequestBody GetPlayListRequest getPlayListRequest){
+        return ResponseEntity.ok().body(userService.getPlayList(getPlayListRequest.getUserId()));
+    }
+
+    @PostMapping("/findSongs")
+    public ResponseEntity<?> findSongs(@RequestBody FindSongRequest findSongRequest){
+        return ResponseEntity.ok(userService.findSong(findSongRequest.getName()));
+    }
+
 }

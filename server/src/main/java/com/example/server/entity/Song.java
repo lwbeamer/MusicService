@@ -1,8 +1,10 @@
 package com.example.server.entity;
 
+import com.example.server.repository.ArtistRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -14,6 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +25,7 @@ public class Song {
     @Column(nullable = false, length = 32)
     private String name;
 
-    @Column(nullable = false,length = 256)
+    @Column(nullable = false, length = 256)
     private String link;
 
     @Column(name = "duration", nullable = false)
@@ -40,17 +43,34 @@ public class Song {
     @ManyToOne(fetch = FetchType.EAGER)
     private Genre genreId;
 
-    @Column(name = "last_change",  nullable = false)
+    @Column(name = "last_change", nullable = false)
     private OffsetDateTime subStart;
 
     @ManyToMany(mappedBy = "songs")
     private Set<Uzer> users = new HashSet<Uzer>();
 
-    public Song(String name, Long duration, Album albumId, Admin adminId, Genre genreId) {
+    @ManyToMany(mappedBy = "songs")
+    private Set<Artist> artists = new HashSet<>();
+
+    public Song(String name, Long duration, Album albumId, Admin adminId, Genre genreId, String link) {
         this.name = name;
         this.duration = duration;
         this.albumId = albumId;
         this.adminId = adminId;
         this.genreId = genreId;
+        this.link = link;
+    }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", link='" + link + '\'' +
+                ", duration=" + duration +
+                ", albumId=" + albumId.getName() +
+                ", genreId=" + genreId.getName() +
+                ", subStart=" + subStart +
+                '}';
     }
 }

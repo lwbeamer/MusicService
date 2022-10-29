@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SongCreateRequest {
-    private String userId;
+    private Long userId;
     private String name;
-    private Integer duration;
+    private Long duration;
     private String albumName;
     private String genre;
     private String link;
