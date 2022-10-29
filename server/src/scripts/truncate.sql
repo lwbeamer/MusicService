@@ -1,3 +1,3 @@
 truncate admin, song, artists_song, uzer_play_list,
     genre, artists_albums, artist, album,
-    uzer, organisation, country, subscription;
+    uzer, organisation, country, subscription,roles;

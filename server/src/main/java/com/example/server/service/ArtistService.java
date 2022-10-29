@@ -77,7 +77,7 @@ public class ArtistService implements ArtistServiceInterface {
         Optional<Album> album = albumRepository.findById(Long.parseLong(albumRepository.getArtistAlbum(artist.get().getId(), albumName)));
         Optional<Genre> genre1 = genreRepository.findByName(genre);
         Song song = new Song(name, duration, album.get(), null, genre1.get(), link);
-        song.setSubStart(OffsetDateTime.now());
+        song.setLast_change(OffsetDateTime.now());
         artist.get().getSongs().add(song);
         artistRepository.save(artist.get());
     }

@@ -44,7 +44,7 @@ public class Song {
     private Genre genreId;
 
     @Column(name = "last_change", nullable = false)
-    private OffsetDateTime subStart;
+    private OffsetDateTime last_change;
 
     @ManyToMany(mappedBy = "songs")
     private Set<Uzer> users = new HashSet<Uzer>();
@@ -70,7 +70,7 @@ public class Song {
                 ", duration=" + duration +
                 ", albumId=" + albumId.getName() +
                 ", genreId=" + genreId.getName() +
-                ", subStart=" + subStart +
+                ", subStart=" + last_change +
                 '}';
     }
 }
