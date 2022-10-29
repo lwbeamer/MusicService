@@ -70,3 +70,78 @@ request :
     "name" : "orgName",  
     "countryName" : "Россия"  
 }  
+### Добавить альбом(Создать альбом может только Artist)
+requestType : POST  
+url : http://localhost:8080/api/artist/addAlbum  
+header : Authorization Bearer + token  
+request :  
+{  
+    "userId" : Id,  
+    "name" : "name",  
+    "description" : "description"  
+}  
+### Вступить в организацию(Вступить может только Artist)
+requestType : POST  
+url : http://localhost:8080/api/artist/setOragnisationToArtist  
+header : Authorization Bearer + token  
+request :  
+{  
+    "orgId" : orgId,  
+    "userId" : userId     
+}  
+### Выйти из организации(Выйти может только Artist)
+requestType : POST  
+url : http://localhost:8080/api/artist/quitFromOrganisation  
+header : Authorization Bearer + token  
+request :  
+{   
+    "userId" : userId     
+}  
+### Добавить песню(Добавить может только Artist)
+requestType : POST  
+url : http://localhost:8080/api/artist/addSong  
+header : Authorization Bearer + token  
+request :  
+{   
+    "userId" : userId,  
+    "name" : "name",  
+    "duration" : duration,  
+    "albumName" : "albumName",  
+    "genre" : "genre",  
+    "link" : "link"  
+}  
+### Получить песни на провекру(Получить может только Admin)
+requestType : GET  
+url : http://localhost:8080/api/admin/getSongsForAdmin  
+header : Authorization Bearer + token  
+### Проверить песню(Проверить может только Admin)
+requestType : POST  
+url : http://localhost:8080/api/admin/checkSong  
+header : Authorization Bearer + token  
+request :  
+{  
+    "userId" : userId,  
+    "songId" : songId  
+}  
+### Добавить песню в плэйлист
+requestType : POST  
+url : http://localhost:8080/api/user/addSongToPlaylist  
+request :  
+{  
+    "userId" : userId,  
+    "songId" : songId  
+}  
+### Получить плэйлист
+requestType : POST  
+url : http://localhost:8080/api/user/getPlayList  
+request :  
+{  
+    "userId" : userId  
+}  
+### Поиск песен
+requestType : POST  
+url : http://localhost:8080/api/user/findSongs  
+request :  
+{  
+    "name" : "name"  
+}  
