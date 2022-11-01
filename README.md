@@ -50,6 +50,7 @@ request :
 ### Добавление артиста в базу
 requestType : POST    
 url : http://localhost:8080/api/artist/addArtist  
+header : Authorization Bearer + token 
 request :  
 {  
     "description" : "Описание артиста!",  
