@@ -21,7 +21,7 @@
 ## Запросы к серверу
 ### Регистрация пользователя
 requestType : POST   
-url : http://localhost:8080/api/admin/signup 
+url : http://localhost:8080/api/auth/signup 
 request :  
 {  
     "name" : "Name",  
