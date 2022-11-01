@@ -47,7 +47,7 @@ request :
     "login" : "nik23",  
     "sub" : "Студенческая"  
 }  
-### Добавление артиста в базу
+### Добавление артиста в базу(может только Admin)
 requestType : POST    
 url : http://localhost:8080/api/artist/addArtist  
 header : Authorization Bearer + token 
