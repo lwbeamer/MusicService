@@ -21,7 +21,7 @@
 ## Запросы к серверу
 ### Регистрация пользователя
 requestType : POST   
-url : http://localhost:8080/api/admin/addOrganisation  
+url : http://localhost:8080/api/auth/signup 
 request :  
 {  
     "name" : "Name",  
@@ -47,9 +47,10 @@ request :
     "login" : "nik23",  
     "sub" : "Студенческая"  
 }  
-### Добавление артиста в базу
+### Добавление артиста в базу(может только Admin)
 requestType : POST    
 url : http://localhost:8080/api/artist/addArtist  
+header : Authorization Bearer + token 
 request :  
 {  
     "description" : "Описание артиста!",  
@@ -144,4 +145,11 @@ url : http://localhost:8080/api/user/findSongs
 request :  
 {  
     "name" : "name"  
+}  
+### Получить песню
+requestType : POST  
+url : http://localhost:8080/api/user/getSongById  
+request :  
+{  
+    "songId" : songId  
 }  
