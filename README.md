@@ -145,3 +145,10 @@ request :
 {  
     "name" : "name"  
 }  
+### Получить песню
+requestType : POST  
+url : http://localhost:8080/api/user/getSongById  
+request :  
+{  
+    "songId" : songId  
+}  
