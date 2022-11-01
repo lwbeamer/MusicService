@@ -15,5 +15,6 @@ public interface UserServiceInterface {
 
     FindResponse findSong(String name);
 
+    SongDTO getSong(Long songId);
 
 }

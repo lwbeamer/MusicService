@@ -31,8 +31,13 @@ public class ArtistService implements ArtistServiceInterface {
     public void addArtist(String description, String login, String name) {
         Optional<Uzer> user = userRepository.findByLogin(login);
         Artist artist = new Artist(name, description);
-        artist.setUzerId(user.get());
-        artistRepository.save(artist);
+        if (user.isPresent()) {
+            artist.setUzerId(user.get());
+            artistRepository.save(artist);
+        }else {
+            System.out.println("Не удалось добавить");
+        }
+
     }
 
     @Override

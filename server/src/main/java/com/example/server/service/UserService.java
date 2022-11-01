@@ -124,5 +124,10 @@ public class UserService implements UserServiceInterface {
 
     }
 
+    @Override
+    public SongDTO getSong(Long songId) {
+        Song song = songRepository.findById(songId).get();
+        return new SongDTO(song.getId(), song.getName(), song.getLink(), song.getDuration(), song.getAlbumId().getName(), song.getGenreId().getName());
+    }
 
 }

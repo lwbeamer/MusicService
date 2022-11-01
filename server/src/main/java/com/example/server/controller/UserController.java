@@ -1,9 +1,6 @@
 package com.example.server.controller;
 
-import com.example.server.request.CheckSongRequest;
-import com.example.server.request.FindSongRequest;
-import com.example.server.request.GetPlayListRequest;
-import com.example.server.request.SubRequest;
+import com.example.server.request.*;
 import com.example.server.response.MessageResponse;
 import com.example.server.service.serviceInterface.UserServiceInterface;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +39,11 @@ public class UserController {
     @PostMapping("/findSongs")
     public ResponseEntity<?> findSongs(@RequestBody FindSongRequest findSongRequest) {
         return ResponseEntity.ok(userService.findSong(findSongRequest.getName()));
+    }
+
+    @PostMapping("/getSongById")
+    public ResponseEntity<?> getSong(@RequestBody GetSongRequest getSongRequest){
+        return ResponseEntity.ok().body(userService.getSong(getSongRequest.getSongId()));
     }
 
 }
