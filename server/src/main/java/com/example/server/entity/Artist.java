@@ -3,7 +3,7 @@ package com.example.server.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -32,7 +32,7 @@ public class Artist {
             inverseJoinColumns = {@JoinColumn(name = "id_album")}
     )
 
-    private Set<Album> albums = new HashSet<Album>();
+    private Set<Album> albums = new HashSet<>();
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "Artists_Song",
@@ -40,7 +40,7 @@ public class Artist {
             inverseJoinColumns = {@JoinColumn(name = "id_song")}
     )
 
-    private Set<Song> songs = new HashSet<Song>();
+    private Set<Song> songs = new HashSet<>();
     @Column(nullable = false, length = 256)
     private String description;
 

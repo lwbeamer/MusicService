@@ -17,4 +17,6 @@ public interface OrganisationRepository extends JpaRepository<Organisation,Long>
     @Modifying
     @Query(value = "SELECT * FROM organisation;",nativeQuery = true)
     Optional<List<Organisation>> getAllOrganisations();
+
+    boolean existsByName(String name);
 }

@@ -1,10 +1,8 @@
 package com.example.server.entity;
 
-import com.example.server.repository.ArtistRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -47,7 +45,7 @@ public class Song {
     private OffsetDateTime last_change;
 
     @ManyToMany(mappedBy = "songs")
-    private Set<Uzer> users = new HashSet<Uzer>();
+    private Set<Uzer> users = new HashSet<>();
 
     @ManyToMany(mappedBy = "songs")
     private Set<Artist> artists = new HashSet<>();

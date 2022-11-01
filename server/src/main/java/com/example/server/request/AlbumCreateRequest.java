@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AlbumCreateRequest {
-    private String userId;
+    private Long userId;
     private String name;
     private String description;
 }

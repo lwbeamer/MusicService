@@ -3,7 +3,6 @@ package com.example.server.service;
 import com.example.server.entity.*;
 import com.example.server.repository.*;
 import com.example.server.service.serviceInterface.ArtistServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -13,18 +12,20 @@ import java.util.Optional;
 @Service
 public class ArtistService implements ArtistServiceInterface {
 
-    @Autowired
-    private ArtistRepository artistRepository;
-    @Autowired
-    private AlbumRepository albumRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private GenreRepository genreRepository;
-    @Autowired
-    private OrganisationRepository organisationRepository;
-    @Autowired
-    private SongRepository songRepository;
+    private final ArtistRepository artistRepository;
+    private final AlbumRepository albumRepository;
+    private final UserRepository userRepository;
+    private final GenreRepository genreRepository;
+    private final OrganisationRepository organisationRepository;
+
+
+    public ArtistService(ArtistRepository artistRepository, AlbumRepository albumRepository, UserRepository userRepository, GenreRepository genreRepository, OrganisationRepository organisationRepository) {
+        this.artistRepository = artistRepository;
+        this.albumRepository = albumRepository;
+        this.userRepository = userRepository;
+        this.genreRepository = genreRepository;
+        this.organisationRepository = organisationRepository;
+    }
 
     @Override
     public void addArtist(String description, String login, String name) {

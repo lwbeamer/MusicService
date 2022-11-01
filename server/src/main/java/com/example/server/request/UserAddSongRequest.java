@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserAddSongRequest {
-    private Integer userId;
-    private Integer songId;
+    private Long userId;
+    private Long songId;
 }

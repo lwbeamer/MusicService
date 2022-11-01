@@ -19,8 +19,4 @@ public class Country {
     @Column(nullable = false, length = 32, unique = true)
     private String name;
 
-
-    public Country(String name) {
-        this.name = name;
-    }
 }

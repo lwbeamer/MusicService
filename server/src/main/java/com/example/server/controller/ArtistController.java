@@ -33,19 +33,19 @@ public class ArtistController {
     @PostMapping("/addAlbum")
     @PreAuthorize("hasRole('ARTIST')")
     public ResponseEntity<?> addAlbum(@RequestBody AlbumCreateRequest albumCreateRequest){
-        artistService.addAlbum(Long.parseLong(albumCreateRequest.getUserId()),albumCreateRequest.getName(),albumCreateRequest.getDescription());
+        artistService.addAlbum(albumCreateRequest.getUserId(),albumCreateRequest.getName(),albumCreateRequest.getDescription());
         return ResponseEntity.ok(new MessageResponse("Альбом добавлен!"));
     }
     @PostMapping("/setOragnisationToArtist")
     @PreAuthorize("hasRole('ARTIST')")
     public ResponseEntity<?> setOrg(@RequestBody SetOrganisationRequest setOrganisationRequest){
-        artistService.setOrganisation(Long.parseLong(setOrganisationRequest.getUserId()),Long.parseLong(setOrganisationRequest.getOrgId()));
+        artistService.setOrganisation(setOrganisationRequest.getUserId(),setOrganisationRequest.getOrgId());
         return ResponseEntity.ok(new MessageResponse("Вы успешно вступили в организацию!"));
     }
     @PostMapping("/quitFromOrganisation")
     @PreAuthorize("hasRole('ARTIST')")
     public ResponseEntity<?> quitFromOrg(@RequestBody QuitFromOrgRequest quitFromOrgRequest){
-        artistService.quitFromOrganisation(Long.parseLong(quitFromOrgRequest.getUserId()));
+        artistService.quitFromOrganisation(quitFromOrgRequest.getUserId());
         return ResponseEntity.ok(new MessageResponse("Вы вышли из организации!"));
     }
 

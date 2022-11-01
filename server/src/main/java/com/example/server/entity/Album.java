@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +25,8 @@ public class Album {
     private String type;
 
     @ManyToMany(mappedBy = "albums")
-    private Set<Artist> artists = new HashSet<Artist>();
+    @ToString.Exclude
+    private Set<Artist> artists = new HashSet<>();
 
     @Column(nullable = false,length = 32)
     private String name;
@@ -34,8 +34,4 @@ public class Album {
     @Column(length = 256)
     private String description;
 
-    public Album(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }

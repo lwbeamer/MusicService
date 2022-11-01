@@ -54,8 +54,9 @@ public class Uzer {
             joinColumns = { @JoinColumn(name = "id_uzer") },
             inverseJoinColumns = {@JoinColumn(name = "id_song")}
     )
+    @ToString.Exclude
 
-    private Set<Song> songs = new HashSet<Song>();
+    private Set<Song> songs = new HashSet<>();
 
     public Uzer(String name, String surname, String login, String password) {
         this.name = name;

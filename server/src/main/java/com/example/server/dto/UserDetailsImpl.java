@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,6 +21,7 @@ import java.util.Collections;
 @NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
+    @Serial
     private static final long serialVersionUID = 1L;
     private Long id;
     private String name;
@@ -31,18 +33,6 @@ public class UserDetailsImpl implements UserDetails {
     private OffsetDateTime subStart;
     private Country countryId;
     private Collection<? extends GrantedAuthority> authorities;
-
-    public UserDetailsImpl(Long id, String name, String surname, String username,String password,Subscription subId,OffsetDateTime subStart, Country countryId, Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.name = name;
-        this.surname =surname;
-        this.username = username;
-        this.password = password;
-        this.subId =subId;
-        this.subStart =subStart;
-        this.countryId = countryId;
-        this.authorities = authorities;
-    }
 
     public static UserDetailsImpl build(Uzer user) {
         UserDetailsImpl c = new UserDetailsImpl();
@@ -101,10 +91,7 @@ public class UserDetailsImpl implements UserDetails {
             return false;
         UserDetailsImpl other = (UserDetailsImpl) obj;
         if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+            return other.id == null;
+        } else return id.equals(other.id);
     }
 }

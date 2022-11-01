@@ -4,43 +4,56 @@ import com.example.server.dto.SongDTO;
 import com.example.server.entity.*;
 import com.example.server.repository.*;
 import com.example.server.service.serviceInterface.AdminServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AdminService implements AdminServiceInterface {
 
-    @Autowired
-    private OrganisationRepository organisationRepository;
-    @Autowired
-    private AdminRepository adminRepository;
-    @Autowired
-    private CountryRepository countryRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private SongRepository songRepository;
+    private final OrganisationRepository organisationRepository;
+    private final AdminRepository adminRepository;
+    private final CountryRepository countryRepository;
+    private final UserRepository userRepository;
+    private final SongRepository songRepository;
+
+    public AdminService(OrganisationRepository organisationRepository, AdminRepository adminRepository, CountryRepository countryRepository, UserRepository userRepository, SongRepository songRepository) {
+        this.organisationRepository = organisationRepository;
+        this.adminRepository = adminRepository;
+        this.countryRepository = countryRepository;
+        this.userRepository = userRepository;
+        this.songRepository = songRepository;
+    }
 
     @Override
-    public void createOrganisation(String description, String name, String countryName) {
+    public int createOrganisation(String description, String name, String countryName) {
         Optional<Country> country = countryRepository.findByName(countryName);
         Organisation organisation = new Organisation(name, description);
+        if (organisationRepository.existsByName(name)){
+            return 3;
+        }
+        if (country.isEmpty()){
+            return 2;
+        }
         organisation.setCountryId(country.get());
         organisationRepository.save(organisation);
+        return 1;
     }
 
     @Override
     public ArrayList<SongDTO> getSongsForAdmin() {
-        Collection<Song> songs = songRepository.getSongsForAdmin().get();
+        Optional<List<Song>> songs = songRepository.getSongsForAdmin();
         ArrayList<SongDTO> songsDTO = new ArrayList<>();
-        for (Song i : songs) {
+        if (songs.isEmpty()){
+            return songsDTO;
+        }
+        for (Song i : songs.get()) {
             SongDTO son = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName());
-            for(Artist k : i.getArtists()){
+            for (Artist k : i.getArtists()) {
                 son.getArtistNames().add(k.getName());
             }
             songsDTO.add(son);
@@ -51,8 +64,17 @@ public class AdminService implements AdminServiceInterface {
     @Override
     public void checkSong(Long userId, Long songId) {
         Optional<Uzer> user = userRepository.findById(userId);
+        if (user.isEmpty()){
+            return;
+        }
         Optional<Admin> admin = adminRepository.findByUzerId(user.get());
+        if (admin.isEmpty()){
+            return;
+        }
         Optional<Song> song = songRepository.findById(songId);
+        if (song.isEmpty()){
+            return;
+        }
         song.get().setAdminId(admin.get());
         songRepository.save(song.get());
     }

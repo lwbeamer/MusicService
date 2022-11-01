@@ -2,14 +2,11 @@ package com.example.server.response;
 
 import com.example.server.dto.AlbumDTO;
 import com.example.server.dto.SongDTO;
-import com.example.server.entity.Album;
-import com.example.server.entity.Song;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
-import java.util.Set;
 
 @ToString
 @Getter

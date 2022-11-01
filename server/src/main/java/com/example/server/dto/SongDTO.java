@@ -2,7 +2,6 @@ package com.example.server.dto;
 
 import lombok.*;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Getter

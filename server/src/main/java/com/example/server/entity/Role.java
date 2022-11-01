@@ -2,7 +2,6 @@ package com.example.server.entity;
 
 import com.example.server.entity.entityhelper.ERole;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -22,14 +21,6 @@ public class Role implements GrantedAuthority {
     private ERole name;
 
     public Role() {
-    }
-
-    public Role(Long id) {
-        this.id = id;
-    }
-
-    public Role(ERole name) {
-        this.name = name;
     }
 
     @Override

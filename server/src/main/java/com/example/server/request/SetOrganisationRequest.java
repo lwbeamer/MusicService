@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SetOrganisationRequest {
-    private String orgId;
-    private String userId;
+    private Long orgId;
+    private Long userId;
 }

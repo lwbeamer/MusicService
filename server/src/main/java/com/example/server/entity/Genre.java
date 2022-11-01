@@ -21,7 +21,4 @@ public class Genre {
     @Column(nullable = false, length = 32, unique = true)
     private String name;
 
-    public Genre(String name) {
-        this.name = name;
-    }
 }

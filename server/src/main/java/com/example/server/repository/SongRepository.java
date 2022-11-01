@@ -13,10 +13,13 @@ import java.util.Optional;
 public interface SongRepository extends JpaRepository<Song, Long> {
     @Query(value = "SELECT * FROM SONG WHERE id_admin IS NULL;", nativeQuery = true)
     Optional<List<Song>> getSongsForAdmin();
-    @Query(value = "SELECT *\n" +
-            "FROM song\n" +
-            "WHERE song.id in (SELECT uzer_play_list.id_song FROM uzer_play_list) AND :userId in (SELECT uzer_play_list.id_uzer FROM uzer_play_list)",nativeQuery = true)
+
+    @Query(value = """
+            SELECT *
+            FROM song
+            WHERE song.id in (SELECT uzer_play_list.id_song FROM uzer_play_list) AND :userId in (SELECT uzer_play_list.id_uzer FROM uzer_play_list)""", nativeQuery = true)
     Optional<List<Song>> getPlayList(@Param("userId") Long userId);
+
     Optional<List<Song>> findAllByName(String name);
 
 }
