@@ -154,3 +154,17 @@ request :
 {  
     "songId" : songId  
 }  
+### Получить песни по album_id
+requestType : POST  
+url : http://localhost:8080/api/user/getSongByAlbumId
+request :  
+{  
+    "albumId" : albumId  
+} 
+### Получить последние n альбомов
+requestType : POST  
+url : http://localhost:8080/api/user/getLastAlbums
+request :  
+{  
+    "count" : count  
+}  
