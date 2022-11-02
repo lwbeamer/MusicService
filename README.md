@@ -79,7 +79,8 @@ request :
 {  
     "userId" : Id,  
     "name" : "name",  
-    "description" : "description"  
+    "description" : "description",  
+    "link" : "link"  
 }  
 ### Вступить в организацию(Вступить может только Artist)
 requestType : POST  
