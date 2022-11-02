@@ -1,5 +1,6 @@
 package com.example.server.repository;
 
+import com.example.server.entity.Album;
 import com.example.server.entity.Song;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
     Optional<List<Song>> getPlayList(@Param("userId") Long userId);
 
     Optional<List<Song>> findAllByName(String name);
+
+    Optional<List<Song>> findAllByAlbumId(Album albumId);
 
 }

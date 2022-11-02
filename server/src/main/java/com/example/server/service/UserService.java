@@ -140,4 +140,39 @@ public class UserService implements UserServiceInterface {
 
     }
 
+    @Override
+    public List<SongDTO> getSongsById(Long albumId) {
+        Album album = albumRepository.findById(albumId).get();
+        List<Song> songs = songRepository.findAllByAlbumId(album).get();
+        SongDTO songDTO;
+        List<SongDTO> songDTOS = new ArrayList<>();
+        for (Song i : songs) {
+            songDTO = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName(), i.getAlbumId().getLink());
+            songDTO.setArtistNames(new ArrayList<>());
+            for (Artist j : i.getArtists()) {
+                songDTO.getArtistNames().add(j.getName());
+            }
+            songDTOS.add(songDTO);
+        }
+        return songDTOS;
+
+    }
+
+    @Override
+    public List<AlbumDTO> getLastAlbums(Long count) {
+        System.out.println(count);
+        List<Album> albums = albumRepository.getLastAlbums(count).get();
+        List<AlbumDTO> albumDTOS = new ArrayList<>();
+        for (Album i : albums) {
+            AlbumDTO albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
+            albumDTO.setArtistNames(new ArrayList<>());
+            for (Artist k : i.getArtists()) {
+                albumDTO.getArtistNames().add(k.getName());
+            }
+            albumDTOS.add(albumDTO);
+        }
+        return albumDTOS;
+    }
+
+
 }
