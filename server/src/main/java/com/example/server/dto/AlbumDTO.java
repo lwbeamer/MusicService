@@ -17,11 +17,13 @@ public class AlbumDTO {
     private List<String> artistNames;
     private String name;
     private String description;
+    private String link;
 
-    public AlbumDTO(Long id, String type, String name, String description) {
+    public AlbumDTO(Long id, String type, String name, String description, String link) {
         this.id = id;
         this.type = type;
         this.name = name;
         this.description = description;
+        this.link = link;
     }
 }

@@ -10,7 +10,7 @@ public interface ArtistServiceInterface {
 
     List<Organisation> getAllOrganisation();
 
-    void addAlbum(Long userId, String name, String description);
+    void addAlbum(Long userId, String name, String description, String link);
 
     void setOrganisation(Long userId, Long orgId);
 

@@ -16,13 +16,15 @@ public class SongDTO {
     private String albumName;
     private String genreName;
     private List<String> artistNames;
+    private String imageLink;
 
-    public SongDTO(Long id, String name, String link, Long duration, String albumName, String genreName) {
+    public SongDTO(Long id, String name, String link, Long duration, String albumName, String genreName,String imageLink) {
         this.id = id;
         this.name = name;
         this.link = link;
         this.duration = duration;
         this.albumName = albumName;
         this.genreName = genreName;
+        this.imageLink = imageLink;
     }
 }

@@ -51,7 +51,7 @@ public class AdminService implements AdminServiceInterface {
             return songsDTO;
         }
         for (Song i : songs.get()) {
-            SongDTO son = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName());
+            SongDTO son = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName(),i.getAlbumId().getLink());
             for (Artist k : i.getArtists()) {
                 son.getArtistNames().add(k.getName());
             }

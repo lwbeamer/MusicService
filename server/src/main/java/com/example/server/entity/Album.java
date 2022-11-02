@@ -28,10 +28,13 @@ public class Album {
     @ToString.Exclude
     private Set<Artist> artists = new HashSet<>();
 
-    @Column(nullable = false,length = 32)
+    @Column(nullable = false, length = 32)
     private String name;
 
     @Column(length = 256)
     private String description;
+
+    @Column(length = 256)
+    private String link;
 
 }

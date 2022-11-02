@@ -34,7 +34,7 @@ public class ArtistService implements ArtistServiceInterface {
         if (user.isPresent()) {
             artist.setUzerId(user.get());
             artistRepository.save(artist);
-        }else {
+        } else {
             System.out.println("Не удалось добавить");
         }
 
@@ -46,13 +46,14 @@ public class ArtistService implements ArtistServiceInterface {
     }
 
     @Override
-    public void addAlbum(Long userId, String name, String description) {
+    public void addAlbum(Long userId, String name, String description, String link) {
         Album album = new Album();
         Optional<Uzer> user = userRepository.findById(userId);
         Optional<Artist> artist = artistRepository.findByUzerId(user.get());
         album.setName(name);
         album.setType("Отсутствуют треки");
         album.setDescription(description);
+        album.setLink(link);
         artist.get().getAlbums().add(album);
         album.getArtists().add(artist.get());
         albumRepository.save(album);

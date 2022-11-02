@@ -33,7 +33,7 @@ public class ArtistController {
     @PostMapping("/addAlbum")
     @PreAuthorize("hasRole('ARTIST')")
     public ResponseEntity<?> addAlbum(@RequestBody AlbumCreateRequest albumCreateRequest){
-        artistService.addAlbum(albumCreateRequest.getUserId(),albumCreateRequest.getName(),albumCreateRequest.getDescription());
+        artistService.addAlbum(albumCreateRequest.getUserId(),albumCreateRequest.getName(),albumCreateRequest.getDescription(),albumCreateRequest.getLink());
         return ResponseEntity.ok(new MessageResponse("Альбом добавлен!"));
     }
     @PostMapping("/setOragnisationToArtist")
