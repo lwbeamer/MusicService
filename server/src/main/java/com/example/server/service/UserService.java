@@ -179,6 +179,10 @@ public class UserService implements UserServiceInterface {
 //        System.out.println(count);
         Album album = albumRepository.findById(id).get();
         AlbumDTO albumDTO = new AlbumDTO(album.getId(), album.getType(), album.getName(), album.getDescription(), album.getLink());
+        albumDTO.setArtistNames(new ArrayList<>());
+        for (Artist k : album.getArtists()) {
+            albumDTO.getArtistNames().add(k.getName());
+        }
 
         return albumDTO;
     }
