@@ -22,4 +22,6 @@ public interface UserServiceInterface {
 
     List<AlbumDTO> getLastAlbums(Long count);
 
+    AlbumDTO getAlbumById(Long id);
+
 }

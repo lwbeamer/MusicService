@@ -21,4 +21,7 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
     Optional<List<Album>> getLastAlbums(@Param("count") Long count);
     Optional<List<Album>> findAllByName(String name);
 
+//    @Query(value = "SELECT * FROM (Select * FROM album WHERE id = :id) albums ",nativeQuery = true)
+//    Optional<List<Album>> getAlbumById(@Param("id") Long id);
+
 }

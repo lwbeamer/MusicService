@@ -174,5 +174,14 @@ public class UserService implements UserServiceInterface {
         return albumDTOS;
     }
 
+    @Override
+    public AlbumDTO getAlbumById(Long id) {
+//        System.out.println(count);
+        Album album = albumRepository.findById(id).get();
+        AlbumDTO albumDTO = new AlbumDTO(album.getId(), album.getType(), album.getName(), album.getDescription(), album.getLink());
+
+        return albumDTO;
+    }
+
 
 }
