@@ -56,7 +56,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getLastAlbums(getLastAlbums.getCount()));
     }
 
-    @PostMapping("/getAlbumById/getAlbumById")
+    @PostMapping("/getAlbumById")
     public ResponseEntity<?> getAlbumById(@RequestBody GetAlbumRequest getAlbumRequest) {
         return ResponseEntity.ok().body(userService.getAlbumById(getAlbumRequest.getAlbumId()));
     }
