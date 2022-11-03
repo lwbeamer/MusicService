@@ -2,13 +2,14 @@ package com.example.server.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
-public class SongDTO {
+public class SongDTO implements Serializable  {
     private Long id;
     private String name;
     private String link;

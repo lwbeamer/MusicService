@@ -1,6 +1,8 @@
 package com.example.server.service.serviceInterface;
 
 import com.example.server.dto.AlbumDTO;
+import com.example.server.dto.CountryDTO;
+import com.example.server.dto.GenreDTO;
 import com.example.server.dto.SongDTO;
 
 import com.example.server.response.FindResponse;
@@ -25,5 +27,9 @@ public interface UserServiceInterface {
     AlbumDTO getAlbumById(Long id);
 
     AlbumDTO getAlbumBySongID(Long songId);
+
+    List<GenreDTO> getAllGenres();
+
+    List<CountryDTO> getAllCountry();
 
 }

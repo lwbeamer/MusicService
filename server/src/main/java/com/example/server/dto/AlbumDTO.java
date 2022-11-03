@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
-public class AlbumDTO {
+public class AlbumDTO implements Serializable {
     private Long id;
     private String type;
     private List<String> artistNames;

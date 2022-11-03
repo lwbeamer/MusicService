@@ -65,4 +65,14 @@ public class UserController {
     public ResponseEntity<?> getAlbumById(@RequestBody GetAlbumBySongIdRequest getAlbumBySongIdRequest) {
         return ResponseEntity.ok().body(userService.getAlbumBySongID(getAlbumBySongIdRequest.getSongId()));
     }
+
+    @GetMapping("/getAllGenres")
+    public ResponseEntity<?> getAllGenres() {
+        return ResponseEntity.ok().body(userService.getAllGenres());
+    }
+
+    @GetMapping("/getAllCountries")
+    public ResponseEntity<?> getAllCountries() {
+        return ResponseEntity.ok().body(userService.getAllCountry());
+    }
 }

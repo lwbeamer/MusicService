@@ -1,6 +1,8 @@
 package com.example.server.service;
 
 import com.example.server.dto.AlbumDTO;
+import com.example.server.dto.CountryDTO;
+import com.example.server.dto.GenreDTO;
 import com.example.server.dto.SongDTO;
 import com.example.server.entity.*;
 import com.example.server.repository.*;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CountedCompleter;
 
 @Service
 public class UserService implements UserServiceInterface {
@@ -21,12 +24,17 @@ public class UserService implements UserServiceInterface {
     private final AlbumRepository albumRepository;
     private final SubscriptionRepository subscriptionRepository;
 
-    public UserService(UserRepository userRepository, SongRepository songRepository, ArtistRepository artistRepository, AlbumRepository albumRepository, SubscriptionRepository subscriptionRepository) {
+    private final GenreRepository genreRepository;
+    private final CountryRepository countryRepository;
+
+    public UserService(UserRepository userRepository, SongRepository songRepository, ArtistRepository artistRepository, AlbumRepository albumRepository, SubscriptionRepository subscriptionRepository, GenreRepository genreRepository, CountryRepository countryRepository) {
         this.userRepository = userRepository;
         this.songRepository = songRepository;
         this.artistRepository = artistRepository;
         this.albumRepository = albumRepository;
         this.subscriptionRepository = subscriptionRepository;
+        this.genreRepository = genreRepository;
+        this.countryRepository = countryRepository;
     }
 
     @Override
@@ -195,6 +203,30 @@ public class UserService implements UserServiceInterface {
             albumDTO.getArtistNames().add(k.getName());
         }
         return albumDTO;
+    }
+
+    @Override
+    public List<GenreDTO> getAllGenres() {
+        List<Genre> genres = genreRepository.findAll();
+        List<GenreDTO> genreDTOS = new ArrayList<>();
+        GenreDTO genreDTO = null;
+        for (Genre i : genres) {
+            genreDTO = new GenreDTO(i.getId(), i.getName());
+            genreDTOS.add(genreDTO);
+        }
+        return genreDTOS;
+    }
+
+    @Override
+    public List<CountryDTO> getAllCountry() {
+        List<Country> countries = countryRepository.findAll();
+        List<CountryDTO> countryDTOS = new ArrayList<>();
+        CountryDTO countryDTO = null;
+        for (Country i : countries) {
+            countryDTO = new CountryDTO(i.getId(), i.getName());
+            countryDTOS.add(countryDTO);
+        }
+        return countryDTOS;
     }
 
 
