@@ -61,4 +61,8 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getAlbumById(getAlbumRequest.getAlbumId()));
     }
 
+    @PostMapping("/getAlbumBySongId")
+    public ResponseEntity<?> getAlbumById(@RequestBody GetAlbumBySongIdRequest getAlbumBySongIdRequest) {
+        return ResponseEntity.ok().body(userService.getAlbumBySongID(getAlbumBySongIdRequest.getSongId()));
+    }
 }

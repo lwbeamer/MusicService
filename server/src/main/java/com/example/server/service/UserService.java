@@ -160,7 +160,6 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public List<AlbumDTO> getLastAlbums(Long count) {
-        System.out.println(count);
         List<Album> albums = albumRepository.getLastAlbums(count).get();
         List<AlbumDTO> albumDTOS = new ArrayList<>();
         for (Album i : albums) {
@@ -176,7 +175,6 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public AlbumDTO getAlbumById(Long id) {
-//        System.out.println(count);
         Album album = albumRepository.findById(id).get();
         AlbumDTO albumDTO = new AlbumDTO(album.getId(), album.getType(), album.getName(), album.getDescription(), album.getLink());
         albumDTO.setArtistNames(new ArrayList<>());
@@ -184,6 +182,18 @@ public class UserService implements UserServiceInterface {
             albumDTO.getArtistNames().add(k.getName());
         }
 
+        return albumDTO;
+    }
+
+    @Override
+    public AlbumDTO getAlbumBySongID(Long songId) {
+        Song song = songRepository.findById(songId).get();
+        Album album = song.getAlbumId();
+        AlbumDTO albumDTO = new AlbumDTO(album.getId(), album.getType(), album.getName(), album.getDescription(), album.getLink());
+        albumDTO.setArtistNames(new ArrayList<>());
+        for (Artist k : album.getArtists()) {
+            albumDTO.getArtistNames().add(k.getName());
+        }
         return albumDTO;
     }
 

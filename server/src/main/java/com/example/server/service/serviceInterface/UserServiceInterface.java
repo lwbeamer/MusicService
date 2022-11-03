@@ -24,4 +24,6 @@ public interface UserServiceInterface {
 
     AlbumDTO getAlbumById(Long id);
 
+    AlbumDTO getAlbumBySongID(Long songId);
+
 }
