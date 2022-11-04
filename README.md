@@ -168,3 +168,10 @@ request :
 {  
     "count" : count  
 }  
+### Получить альбом по song_id
+requestType : POST  
+url : http://localhost:8080/api/user/getAlbumBySongId
+request :  
+{  
+    "songId" : songId  
+}  
