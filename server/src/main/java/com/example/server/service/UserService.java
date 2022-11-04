@@ -75,7 +75,7 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public FindResponse findSong(String name) {
-        Optional<List<Song>> songs = songRepository.findAllByName(name);
+        Optional<List<Song>> songs = songRepository.findAllByNameWithoutRegister(name);
         List<SongDTO> songDTOS = new ArrayList<>();
         if (songs.isPresent()) {
             for (Song i : songs.get()) {
@@ -89,7 +89,7 @@ public class UserService implements UserServiceInterface {
                 }
             }
         }
-        Optional<List<Album>> albums = albumRepository.findAllByName(name);
+        Optional<List<Album>> albums = albumRepository.findAllByNameWithoutRegister(name);
         List<AlbumDTO> albumDTOS = new ArrayList<>();
         if (albums.isPresent()) {
             for (Album i : albums.get()) {
@@ -101,7 +101,7 @@ public class UserService implements UserServiceInterface {
                 albumDTOS.add(albumDTO);
             }
         }
-        Optional<Artist> artist = artistRepository.findByName(name);
+        Optional<Artist> artist = artistRepository.findByNameWithoutRegister(name);
         if (artist.isPresent()) {
             List<Album> albumsArtist = new ArrayList<>(artist.get().getAlbums());
             List<AlbumDTO> albumDTOSArtist = new ArrayList<>();

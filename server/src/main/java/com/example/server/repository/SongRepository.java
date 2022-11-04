@@ -23,6 +23,9 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 
     Optional<List<Song>> findAllByName(String name);
 
+    @Query(value = "SELECT * FROM song where upper(name) = upper(:name)", nativeQuery = true)
+    Optional<List<Song>> findAllByNameWithoutRegister(@Param("name") String name);
+
     Optional<List<Song>> findAllByAlbumId(Album albumId);
 
 }
