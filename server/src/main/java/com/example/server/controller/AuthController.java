@@ -11,16 +11,19 @@ import com.example.server.repository.AdminRepository;
 import com.example.server.repository.CountryRepository;
 import com.example.server.repository.RoleRepository;
 import com.example.server.repository.UserRepository;
+import com.example.server.request.CheckTokenRequest;
 import com.example.server.request.LoginRequest;
 import com.example.server.request.SignupRequest;
 import com.example.server.response.JwtResponse;
 import com.example.server.response.MessageResponse;
 import com.example.server.dto.UserDetailsImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.SignatureException;
 import java.util.Optional;
 
 @RestController
@@ -102,5 +106,16 @@ public class AuthController {
             adminRepository.save(admin);
         }
         return ResponseEntity.ok(new MessageResponse("Пользователь успешно зарегистрирован!"));
+    }
+
+
+    @PostMapping("/checkToken")
+    public ResponseEntity<?> checkToken(@RequestBody CheckTokenRequest checkTokenRequest) {
+        if(!jwtUtils.validateJwtToken(checkTokenRequest.getToken())){
+            return ResponseEntity.badRequest().body("Заебало быть бедным, решил подняться");
+        }
+        String login = jwtUtils.getUserNameFromJwtToken(checkTokenRequest.getToken());
+        Uzer user = userRepository.findByLogin(login).get();
+        return ResponseEntity.ok(new JwtResponse(checkTokenRequest.getToken(), user.getId(), user.getName(), user.getSurname(), user.getLogin(), user.getRole().toString(),user.getSubId(),user.getSubStart(),user.getCountryId()));
     }
 }
