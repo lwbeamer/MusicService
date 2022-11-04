@@ -32,6 +32,7 @@ public class UserDetailsImpl implements UserDetails {
     private Subscription subId;
     private OffsetDateTime subStart;
     private Country countryId;
+    private String profileImageLink;
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(Uzer user) {
@@ -39,11 +40,12 @@ public class UserDetailsImpl implements UserDetails {
         c.id = user.getId();
         c.name = user.getName();
         c.surname = user.getSurname();
-        c.username= user.getLogin();
+        c.username = user.getLogin();
         c.password = user.getPassword();
         c.subId = user.getSubId();
         c.subStart = user.getSubStart();
         c.countryId = user.getCountryId();
+        c.profileImageLink = user.getLink();
         c.authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().toString()));
         return c;
     }

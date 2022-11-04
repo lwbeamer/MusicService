@@ -12,4 +12,5 @@ public class SignupRequest {
     private String password;
     private String role;
     private String countryId;
+    private String profileImage;
 }

@@ -65,7 +65,7 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String roles = userDetails.getAuthorities().toString();
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getName(), userDetails.getSurname(), userDetails.getUsername(), roles, userDetails.getSubId(), userDetails.getSubStart(), userDetails.getCountryId()));
+        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getName(), userDetails.getSurname(), userDetails.getUsername(), roles, userDetails.getSubId(), userDetails.getSubStart(), userDetails.getCountryId(),userDetails.getProfileImageLink()));
     }
 
     @PostMapping("/signup")
@@ -77,7 +77,7 @@ public class AuthController {
 
 
         Uzer user = new Uzer(signupRequest.getName(), signupRequest.getSurname(), signupRequest.getLogin(), passwordEncoder.encode(signupRequest.getPassword()));
-
+        user.setLink(signupRequest.getProfileImage());
         Country country = countryRepository.findByName(signupRequest.getCountryId()).orElseThrow(() -> new RuntimeException("Error: Такой страны не существует!"));
         user.setCountryId(country);
 
@@ -116,6 +116,6 @@ public class AuthController {
         }
         String login = jwtUtils.getUserNameFromJwtToken(checkTokenRequest.getToken());
         Uzer user = userRepository.findByLogin(login).get();
-        return ResponseEntity.ok(new JwtResponse(checkTokenRequest.getToken(), user.getId(), user.getName(), user.getSurname(), user.getLogin(), user.getRole().toString(),user.getSubId(),user.getSubStart(),user.getCountryId()));
+        return ResponseEntity.ok(new JwtResponse(checkTokenRequest.getToken(), user.getId(), user.getName(), user.getSurname(), user.getLogin(), user.getRole().toString(),user.getSubId(),user.getSubStart(),user.getCountryId(), user.getLink()));
     }
 }

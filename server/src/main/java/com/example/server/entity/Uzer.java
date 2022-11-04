@@ -37,12 +37,15 @@ public class Uzer {
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
-    @JoinColumn( name = "id_sub")
+    @JoinColumn(name = "id_sub")
     @ManyToOne(fetch = FetchType.EAGER)
     private Subscription subId;
 
-    @Column(name="sub_start",columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
+    @Column(name = "sub_start", columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
     private OffsetDateTime subStart;
+
+    @Column(name = "profile_image_link")
+    private String link;
 
     @JoinColumn(nullable = false, name = "id_country")
     @ManyToOne(fetch = FetchType.EAGER)
@@ -51,7 +54,7 @@ public class Uzer {
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "Uzer_Play_List",
-            joinColumns = { @JoinColumn(name = "id_uzer") },
+            joinColumns = {@JoinColumn(name = "id_uzer")},
             inverseJoinColumns = {@JoinColumn(name = "id_song")}
     )
     @ToString.Exclude

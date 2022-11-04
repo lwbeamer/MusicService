@@ -20,8 +20,9 @@ public class JwtResponse {
     private Subscription subId;
     private String subStart;
     private String countryId;
+    private String profileImageLink;
 
-    public JwtResponse(String token, Long id, String name, String surname, String username, String role, Subscription subId, OffsetDateTime subStart, Country countryId) {
+    public JwtResponse(String token, Long id, String name, String surname, String username, String role, Subscription subId, OffsetDateTime subStart, Country countryId,String profileImageLink) {
         this.token = token;
         this.id = id;
         this.name = name;
@@ -29,7 +30,7 @@ public class JwtResponse {
         this.username = username;
         this.role = role;
         this.subId = subId;
-
+        this.profileImageLink = profileImageLink;
         this.countryId = countryId.getName();
 
     }
