@@ -156,29 +156,102 @@ request :
 }  
 ### Получить песни по album_id
 requestType : POST  
-url : http://localhost:8080/api/user/getSongByAlbumId
+url : http://localhost:8080/api/user/getSongByAlbumId  
 request :  
 {  
     "albumId" : albumId  
 } 
 ### Получить последние n альбомов
 requestType : POST  
-url : http://localhost:8080/api/user/getLastAlbums
+url : http://localhost:8080/api/user/getLastAlbums  
 request :  
 {  
     "count" : count  
 }  
 ### Получить альбом по song_id
 requestType : POST  
-url : http://localhost:8080/api/user/getAlbumBySongId
+url : http://localhost:8080/api/user/getAlbumBySongId  
 request :  
 {  
     "songId" : songId  
 }  
-
+### Проверить токен
+requestType : POST  
+url : http://localhost:8080/api/auth/checkToken  
+request :  
+{  
+    "token" : "token"  
+}  
+### Получить все жанры песен
+requestType : GET  
+url : http://localhost:8080/api/user/getAllGenres  
+### Получить все страны
+requestType : GET  
+url : http://localhost:8080/api/user/getAllCountries  
+### Проверить есть ли у пользователя песня в плейлисте 
+requestType : POST  
+url : http://localhost:8080/api/user/checkSongInPlaylist  
+request :  
+{  
+    "userId" : userId,  
+    "songId" : songId  
+}  
+### Проверить есть ли у пользователя подписка
+requestType : POST  
+url : http://localhost:8080/api/user/checkSub  
+request :  
+{  
+    "userId" : userId  
+}  
+### Получить n альбомов по жанру 
+requestType : POST  
+url : http://localhost:8080/api/user/getAlbumsByGenre  
+request :  
+{  
+    "count" : count,  
+    "genre" : "genreName"  
+}  
+### Создать пользовательский альбом
+requestType : POST  
+url : http://localhost:8080/api/user/createUserAlbum  
+request :  
+{  
+    "imageLink" : "imageLink,  
+    "name" : "name",  
+    "userId" : userId  
+}  
+### Получить пользовательский альбом
+requestType : POST  
+url : http://localhost:8080/api/user/getUserAlbum  
+request :  
+{  
+    "userId" : userId  
+}  
+### Добавить песню в пользовательский альбом
+requestType : POST  
+url : http://localhost:8080/api/user/addSongToUserAlbum  
+request :  
+{  
+    "userId" : userId,  
+    "songId" : songId  
+}  
+### Получить песни из пользовательско альбома 
+requestType : POST  
+url : http://localhost:8080/api/user/getUserAlbumSongs  
+request :  
+{  
+    "userId" : userId  
+}  
+### Получить n последних пользовательских альбома 
+requestType : POST  
+url : http://localhost:8080/api/user/getLastUserAlbums  
+request :  
+{  
+    "count" : count  
+}  
 ## Нурик сделай (не удаляй сделанное а отметь чтоб удобнее было)
 ### Cписок в порядке от срочных до менее срочных
 - я кидаю сонг айди и юзер айди а ты в ответ есть ли у этого пользователя в плейлисте этот трек(сделал)
-- Получить n последних плейлистов (тоже самое что и с альбомами)
-- я кидаю n и жанр а ты кидаешь н последних альбомов в этом жанре
+- Получить n последних плейлистов (тоже самое что и с альбомами)(сделал)
+- я кидаю n и жанр а ты кидаешь н последних альбомов в этом жанре(сделал)
 - Проверка подписки(сделал)
