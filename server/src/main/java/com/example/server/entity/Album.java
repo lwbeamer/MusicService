@@ -37,4 +37,5 @@ public class Album {
     @Column(length = 256)
     private String link;
 
+
 }

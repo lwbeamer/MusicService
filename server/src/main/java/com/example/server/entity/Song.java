@@ -45,6 +45,9 @@ public class Song {
     private OffsetDateTime last_change;
 
     @ManyToMany(mappedBy = "songs")
+    private Set<UserAlbums> userAlbums = new HashSet<>();
+
+    @ManyToMany(mappedBy = "songs")
     private Set<Uzer> users = new HashSet<>();
 
     @ManyToMany(mappedBy = "songs")

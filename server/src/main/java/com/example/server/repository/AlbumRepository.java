@@ -4,6 +4,7 @@ import com.example.server.entity.Album;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -24,4 +25,11 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
 
     @Query(value = "SELECT * FROM album where upper(name) = upper(:name)", nativeQuery = true)
     Optional<List<Album>> findAllByNameWithoutRegister(@Param("name") String name);
+
+    @Query(value = "SELECT DISTINCT album.id, album.type, album.name, album.description, album.link\n" +
+            "FROM album\n" +
+            "         INNER JOIN song on album.id = song.id_album\n" +
+            "WHERE song.id_genre = :genreId\n" +
+            "ORDER BY album.id DESC LIMIT :count\n", nativeQuery = true)
+    Optional<List<Album>> findAllAlbumsByGenre(@Param("count") Long count, @Param("genreId") Long genreId);
 }

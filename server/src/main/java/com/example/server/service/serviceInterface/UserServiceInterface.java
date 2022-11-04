@@ -1,10 +1,9 @@
 package com.example.server.service.serviceInterface;
 
-import com.example.server.dto.AlbumDTO;
-import com.example.server.dto.CountryDTO;
-import com.example.server.dto.GenreDTO;
-import com.example.server.dto.SongDTO;
+import com.example.server.dto.*;
 
+import com.example.server.entity.Song;
+import com.example.server.entity.UserAlbums;
 import com.example.server.response.FindResponse;
 
 import java.util.List;
@@ -31,5 +30,21 @@ public interface UserServiceInterface {
     List<GenreDTO> getAllGenres();
 
     List<CountryDTO> getAllCountry();
+
+    boolean checkSongInPlaylist(Long userId, Long songId);
+
+    boolean checkSubRequest(Long userId);
+
+    List<AlbumDTO> getAlbumsByGenre(Long count, String genre);
+
+    void createUserAlbum(String imageLink, String name, Long userId);
+
+    UserAlbumsDTO getUserAlbum(Long userId);
+
+    void addSongToUserAlbum(Long songId,Long userId);
+
+    List<SongDTO> getUserAlbumSongs(Long userId);
+
+    List<UserAlbumsDTO> getLastUserAlbums(Long count);
 
 }

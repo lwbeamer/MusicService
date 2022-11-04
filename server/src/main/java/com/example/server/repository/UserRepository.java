@@ -8,6 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 
 @Repository
@@ -18,6 +21,12 @@ public interface UserRepository extends JpaRepository<Uzer, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "CALL add_sub_to_user(:user_id,:sub_id);",nativeQuery = true)
+    @Query(value = "CALL add_sub_to_user(:user_id,:sub_id);", nativeQuery = true)
     void addSubToUser(@Param("user_id") Long userId, @Param("sub_id") Long subId);
+
+    @Transactional
+    @Query(value = "SELECT EXISTS (SELECT * FROM uzer_play_list WHERE  id_uzer= :userId AND id_song = :songId)", nativeQuery = true)
+    boolean checkSongInPlaylist(@Param("userId") Long userId, @Param("songId") Long songId);
+    @Query(value = "SELECT sub_start FROM uzer where id = :userId ",nativeQuery = true)
+    Timestamp getSubStart(@Param("userId") Long userId);
 }

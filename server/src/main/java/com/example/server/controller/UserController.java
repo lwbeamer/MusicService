@@ -75,4 +75,47 @@ public class UserController {
     public ResponseEntity<?> getAllCountries() {
         return ResponseEntity.ok().body(userService.getAllCountry());
     }
+
+    @PostMapping("/checkSongInPlaylist")
+    public ResponseEntity<?> checkSongInPlaylist(@RequestBody CheckSongInPlaylistRequest checkSongInPlaylistRequest) {
+        return ResponseEntity.ok().body(userService.checkSongInPlaylist(checkSongInPlaylistRequest.getUserId(), checkSongInPlaylistRequest.getSongId()));
+    }
+
+    @PostMapping("/checkSub")
+    public ResponseEntity<?> checkSub(@RequestBody CheckSubRequest checkSubRequest) {
+        return ResponseEntity.ok().body(userService.checkSubRequest(checkSubRequest.getUserId()));
+    }
+
+    @PostMapping("/getAlbumsByGenre")
+    public ResponseEntity<?> getAlbumsByGenre(@RequestBody GetAlbumsWithThisGenreRequest getAlbumsWithThisGenreRequest) {
+        return ResponseEntity.ok().body(userService.getAlbumsByGenre(getAlbumsWithThisGenreRequest.getCount(), getAlbumsWithThisGenreRequest.getGenre()));
+    }
+
+    @PostMapping("/createUserAlbum")
+    public ResponseEntity<?> createUserAlbum(@RequestBody CreateUserAlbumRequest createUserAlbumRequest) {
+        userService.createUserAlbum(createUserAlbumRequest.getImageLink(), createUserAlbumRequest.getName(), createUserAlbumRequest.getUserId());
+        return ResponseEntity.ok().body("Успешно создан ");
+    }
+
+    @PostMapping("/getUserAlbum")
+    public ResponseEntity<?> getUserAlbum(@RequestBody GetUserAlbumRequest getUserAlbumRequest) {
+        return ResponseEntity.ok().body(userService.getUserAlbum(getUserAlbumRequest.getUserId()));
+    }
+
+    @PostMapping("/addSongToUserAlbum")
+    public ResponseEntity<?> addSongToUserAlbum(@RequestBody AddSongToUserAlbumRequest addSongToUserAlbumRequest) {
+        userService.addSongToUserAlbum(addSongToUserAlbumRequest.getSongId(), addSongToUserAlbumRequest.getUserId());
+        return ResponseEntity.ok().body("Песня успешно добавлена");
+    }
+
+    @PostMapping("/getUserAlbumSongs")
+    public ResponseEntity<?> getUserAlbumSongs(@RequestBody GetUserAlbumSongsRequest getUserAlbumSongsRequest) {
+        return ResponseEntity.ok().body(userService.getUserAlbumSongs(getUserAlbumSongsRequest.getUserId()));
+    }
+
+    @PostMapping("/getLastUserAlbums")
+    public ResponseEntity<?> getLastUserAlbums(@RequestBody GetLastUserAlbumsRequest getLastUserAlbumsRequest) {
+        return ResponseEntity.ok().body(userService.getLastUserAlbums(getLastUserAlbumsRequest.getCount()));
+    }
+
 }

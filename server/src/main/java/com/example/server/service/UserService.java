@@ -1,19 +1,21 @@
 package com.example.server.service;
 
-import com.example.server.dto.AlbumDTO;
-import com.example.server.dto.CountryDTO;
-import com.example.server.dto.GenreDTO;
-import com.example.server.dto.SongDTO;
+import com.example.server.dto.*;
 import com.example.server.entity.*;
 import com.example.server.repository.*;
 import com.example.server.response.FindResponse;
 import com.example.server.service.serviceInterface.UserServiceInterface;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CountedCompleter;
+
+import static java.time.ZoneOffset.UTC;
 
 @Service
 public class UserService implements UserServiceInterface {
@@ -23,16 +25,17 @@ public class UserService implements UserServiceInterface {
     private final ArtistRepository artistRepository;
     private final AlbumRepository albumRepository;
     private final SubscriptionRepository subscriptionRepository;
-
+    private final UserAlbumsRepository userAlbumsRepository;
     private final GenreRepository genreRepository;
     private final CountryRepository countryRepository;
 
-    public UserService(UserRepository userRepository, SongRepository songRepository, ArtistRepository artistRepository, AlbumRepository albumRepository, SubscriptionRepository subscriptionRepository, GenreRepository genreRepository, CountryRepository countryRepository) {
+    public UserService(UserRepository userRepository, SongRepository songRepository, ArtistRepository artistRepository, AlbumRepository albumRepository, SubscriptionRepository subscriptionRepository, UserAlbumsRepository userAlbumsRepository, GenreRepository genreRepository, CountryRepository countryRepository) {
         this.userRepository = userRepository;
         this.songRepository = songRepository;
         this.artistRepository = artistRepository;
         this.albumRepository = albumRepository;
         this.subscriptionRepository = subscriptionRepository;
+        this.userAlbumsRepository = userAlbumsRepository;
         this.genreRepository = genreRepository;
         this.countryRepository = countryRepository;
     }
@@ -227,6 +230,95 @@ public class UserService implements UserServiceInterface {
             countryDTOS.add(countryDTO);
         }
         return countryDTOS;
+    }
+
+    @Override
+    public boolean checkSongInPlaylist(Long userId, Long songId) {
+        return userRepository.checkSongInPlaylist(userId, songId);
+    }
+
+    @Override
+    public boolean checkSubRequest(Long userId) {
+        Timestamp t = userRepository.getSubStart(userId);
+        try {
+            OffsetDateTime time = OffsetDateTime.ofInstant(t.toInstant(), ZoneId.of(String.valueOf(UTC)));
+            if (OffsetDateTime.now().getDayOfYear() > time.getDayOfYear()) {
+                return false;
+            }
+            return true;
+        } catch (NullPointerException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public List<AlbumDTO> getAlbumsByGenre(Long count, String genre) {
+        Long genreId = genreRepository.findByName(genre).get().getId();
+        List<Album> albums = albumRepository.findAllAlbumsByGenre(count, genreId).get();
+        List<AlbumDTO> albumDTOS = new ArrayList<>();
+        AlbumDTO albumDTO;
+        for (Album i : albums) {
+            albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
+            albumDTO.setArtistNames(new ArrayList<>());
+            for (Artist k : i.getArtists()) {
+                albumDTO.getArtistNames().add(k.getName());
+            }
+            albumDTOS.add(albumDTO);
+        }
+        return albumDTOS;
+    }
+
+    @Override
+    public void createUserAlbum(String imageLink, String name, Long userId) {
+        Uzer user = userRepository.findById(userId).get();
+        UserAlbums albums = new UserAlbums(name, imageLink, user);
+        albums.setSongs(new HashSet<>());
+        userAlbumsRepository.save(albums);
+    }
+
+    @Override
+    public UserAlbumsDTO getUserAlbum(Long userId) {
+        Uzer user = userRepository.findById(userId).get();
+        UserAlbums userAlbums = userAlbumsRepository.findByUser(user).get();
+        return new UserAlbumsDTO(userAlbums.getId(), userAlbums.getImageLink(), userAlbums.getName(), userAlbums.getUser().getId());
+    }
+
+    @Override
+    public void addSongToUserAlbum(Long songId, Long userId) {
+        Uzer user = userRepository.findById(userId).get();
+        UserAlbums userAlbums = userAlbumsRepository.findByUser(user).get();
+        Song song = songRepository.findById(songId).get();
+        userAlbums.getSongs().add(song);
+        userAlbumsRepository.save(userAlbums);
+    }
+
+    @Override
+    public List<SongDTO> getUserAlbumSongs(Long userId) {
+        Uzer user = userRepository.findById(userId).get();
+        UserAlbums userAlbums = userAlbumsRepository.findByUser(user).get();
+        List<SongDTO> songDTOS = new ArrayList<>();
+        SongDTO songDTO;
+        for (Song i : userAlbums.getSongs()) {
+            songDTO = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName(), i.getAlbumId().getLink());
+            songDTO.setArtistNames(new ArrayList<>());
+            for (Artist j : i.getArtists()) {
+                songDTO.getArtistNames().add(j.getName());
+            }
+            songDTOS.add(songDTO);
+        }
+        return songDTOS;
+    }
+
+    @Override
+    public List<UserAlbumsDTO> getLastUserAlbums(Long count) {
+        List<UserAlbums> userAlbums = userAlbumsRepository.getLastAlbums(count).get();
+        List<UserAlbumsDTO> albumDTOS = new ArrayList<>();
+        UserAlbumsDTO userAlbumsDTO;
+        for (UserAlbums i : userAlbums) {
+            userAlbumsDTO = new UserAlbumsDTO(i.getId(), i.getImageLink(), i.getName(), i.getUser().getId());
+            albumDTOS.add(userAlbumsDTO);
+        }
+        return albumDTOS;
     }
 
 
