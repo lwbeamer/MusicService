@@ -29,7 +29,8 @@ request :
     "login" : "Login",  
     "password" : "password",  
     "role" : "admin",  
-    "countryId" : "Россия"  
+    "countryId" : "Россия",  
+    "profileImage" : "profileImage"  
 }  
 ### Авторизация пользователя
 requestType : POST   
