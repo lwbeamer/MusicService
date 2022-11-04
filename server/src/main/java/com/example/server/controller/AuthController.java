@@ -56,6 +56,7 @@ public class AuthController {
         this.jwtUtils = jwtUtils;
     }
 
+
     @PostMapping("/signin")
     public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getLogin(), loginRequest.getPassword()));
@@ -107,7 +108,6 @@ public class AuthController {
         }
         return ResponseEntity.ok(new MessageResponse("Пользователь успешно зарегистрирован!"));
     }
-
 
     @PostMapping("/checkToken")
     public ResponseEntity<?> checkToken(@RequestBody CheckTokenRequest checkTokenRequest) {

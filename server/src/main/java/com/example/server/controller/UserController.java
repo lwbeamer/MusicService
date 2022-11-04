@@ -16,7 +16,6 @@ public class UserController {
 
     public UserController(UserServiceInterface userService) {
         this.userService = userService;
-
     }
 
     @PostMapping("/addSub")

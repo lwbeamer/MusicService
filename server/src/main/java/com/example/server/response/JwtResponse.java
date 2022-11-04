@@ -17,7 +17,7 @@ public class JwtResponse {
     private String surname;
     private String username;
     private String role;
-    private String subId;
+    private Subscription subId;
     private String subStart;
     private String countryId;
 
@@ -28,16 +28,7 @@ public class JwtResponse {
         this.surname = surname;
         this.username = username;
         this.role = role;
-        if (subId == null) {
-            this.subId = null;
-        } else {
-            this.subId = subId.toString();
-        }
-        if (subStart == null) {
-            this.subStart = null;
-        } else {
-            this.subStart = subStart.toString();
-        }
+        this.subId = subId;
 
         this.countryId = countryId.getName();
 
