@@ -37,7 +37,7 @@ public interface UserServiceInterface {
 
     List<AlbumDTO> getAlbumsByGenre(Long count, String genre);
 
-    void createUserAlbum(String imageLink, String name, Long userId);
+    boolean createUserAlbum(String imageLink, String name, Long userId);
 
     UserAlbumsDTO getUserAlbum(Long userId);
 

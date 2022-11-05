@@ -27,6 +27,9 @@ public interface UserRepository extends JpaRepository<Uzer, Long> {
     @Transactional
     @Query(value = "SELECT EXISTS (SELECT * FROM uzer_albums_songs WHERE  id_user_albums= :idUserAlbums AND id_song = :songId)", nativeQuery = true)
     boolean checkSongInPlaylist(@Param("idUserAlbums") Long idUserAlbums, @Param("songId") Long songId);
+    @Transactional
+    @Query(value = "SELECT EXISTS (SELECT * FROM user_albums WHERE  id_uzer= :userId)", nativeQuery = true)
+    boolean checkExistAlbum(@Param("userId") Long userId);
     @Query(value = "SELECT sub_start FROM uzer where id = :userId ",nativeQuery = true)
     Timestamp getSubStart(@Param("userId") Long userId);
 }

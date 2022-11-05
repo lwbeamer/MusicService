@@ -92,8 +92,10 @@ public class UserController {
 
     @PostMapping("/createUserAlbum")
     public ResponseEntity<?> createUserAlbum(@RequestBody CreateUserAlbumRequest createUserAlbumRequest) {
-        userService.createUserAlbum(createUserAlbumRequest.getImageLink(), createUserAlbumRequest.getName(), createUserAlbumRequest.getUserId());
-        return ResponseEntity.ok().body("Успешно создан ");
+        if(userService.createUserAlbum(createUserAlbumRequest.getImageLink(), createUserAlbumRequest.getName(), createUserAlbumRequest.getUserId())){
+            return ResponseEntity.ok().body("Успешно создан ");
+        }
+        return ResponseEntity.badRequest().body("Уже есть альбом");
     }
 
     @PostMapping("/getUserAlbum")

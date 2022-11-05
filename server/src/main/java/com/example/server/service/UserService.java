@@ -271,11 +271,15 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public void createUserAlbum(String imageLink, String name, Long userId) {
+    public boolean createUserAlbum(String imageLink, String name, Long userId) {
         Uzer user = userRepository.findById(userId).get();
+        if (userRepository.checkExistAlbum(userId)){
+            return false;
+        }
         UserAlbums albums = new UserAlbums(name, imageLink, user);
         albums.setSongs(new HashSet<>());
         userAlbumsRepository.save(albums);
+        return true;
     }
 
     @Override
