@@ -234,7 +234,9 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public boolean checkSongInPlaylist(Long userId, Long songId) {
-        return userRepository.checkSongInPlaylist(userId, songId);
+        Uzer user = userRepository.findById(userId).get();
+        UserAlbums userAlbums = userAlbumsRepository.findByUser(user).get();
+        return userRepository.checkSongInPlaylist(userAlbums.getId(), songId);
     }
 
     @Override
