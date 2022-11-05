@@ -47,4 +47,6 @@ public interface UserServiceInterface {
 
     List<UserAlbumsDTO> getLastUserAlbums(Long count);
 
+    void deleteSongFromPlaylist(Long userId,Long songId);
+
 }

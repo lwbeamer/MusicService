@@ -117,4 +117,10 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getLastUserAlbums(getLastUserAlbumsRequest.getCount()));
     }
 
+    @PostMapping("/deleteSongFromUserAlbums")
+    public ResponseEntity<?> deleteSongFromUserAlbums(@RequestBody DeleteSongFromUserPlaylistRequest deleteSongFromUserPlaylistRequest){
+        userService.deleteSongFromPlaylist(deleteSongFromUserPlaylistRequest.getUserId(),deleteSongFromUserPlaylistRequest.getSongId());
+        return ResponseEntity.ok().body("Трек удален");
+    }
+
 }

@@ -321,5 +321,12 @@ public class UserService implements UserServiceInterface {
         return albumDTOS;
     }
 
+    @Override
+    public void deleteSongFromPlaylist(Long userId, Long songId) {
+        Uzer user = userRepository.findById(userId).get();
+        UserAlbums userAlbums = userAlbumsRepository.findByUser(user).get();
+        userAlbumsRepository.deleteSongFromUserPlaylist(userAlbums.getId(),songId);
+    }
+
 
 }
