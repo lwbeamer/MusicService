@@ -133,7 +133,7 @@ request :
 {  
     "userId" : userId,  
     "songId" : songId  
-}
+}~~
 
 ~~### Получить плэйлист
 requestType : POST  
