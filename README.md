@@ -126,21 +126,23 @@ request :
     "userId" : userId,  
     "songId" : songId  
 }  
-### Добавить песню в плэйлист
+~~### Добавить песню в плэйлист
 requestType : POST  
 url : http://localhost:8080/api/user/addSongToPlaylist  
 request :  
 {  
     "userId" : userId,  
     "songId" : songId  
-}  
-### Получить плэйлист
+}
+
+~~### Получить плэйлист
 requestType : POST  
 url : http://localhost:8080/api/user/getPlayList  
 request :  
 {  
     "userId" : userId  
-}  
+}~~
+
 ### Поиск песен
 requestType : POST  
 url : http://localhost:8080/api/user/findSongs  
@@ -257,4 +259,5 @@ request :
 - я кидаю n и жанр а ты кидаешь н последних альбомов в этом жанре(сделал)
 - Проверка подписки(сделал)
 
--я кидаю song_id и user_id а ты ответ тру фолс есть трек у него в плейлисте или нет
+-Удаление трека из плейлиста
+- Всё таки сделай проверку если можешь когда чел создает плейлист чтобы была проверка что у него его ещё нет. На фронте это проверяется но на будущее так лучше ж
