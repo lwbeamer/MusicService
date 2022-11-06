@@ -273,15 +273,15 @@ request :
 - При добавлении альбома я тебе кидаю имена артистов, которым принадлежит этот альбом:
     request :  
         {  
-            "usersIds" : Ids(массив),  
+            "artistsNames" : artistsNames(массив),  
             "name" : "name",  
             "description" : "description",  
             "link" : "link"  
         }  
-- При добавлении трека я кидаю имена артистов, которым принадлежит этот трек (но не факт что альбом):
+- При добавлении трека я кидаю имена артистов, которые на фите (по дефолту на этом треке те, чей альбом. featuresIds может быть и [] если на треке нет фита):
     request :  
         {   
-            "usersIds" : Ids(массив),  
+            "featuresNames" : featuresNames(массив),  
             "name" : "name",  
             "duration" : duration,  
             "albumId" : "albumId",  
