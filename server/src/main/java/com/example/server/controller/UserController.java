@@ -4,6 +4,7 @@ import com.example.server.request.*;
 import com.example.server.response.MessageResponse;
 import com.example.server.service.serviceInterface.UserServiceInterface;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -115,6 +116,13 @@ public class UserController {
     public ResponseEntity<?> deleteSongFromUserAlbums(@RequestBody DeleteSongFromUserPlaylistRequest deleteSongFromUserPlaylistRequest) {
         userService.deleteSongFromPlaylist(deleteSongFromUserPlaylistRequest.getUserId(), deleteSongFromUserPlaylistRequest.getSongId());
         return ResponseEntity.ok().body("Трек удален");
+    }
+
+
+    @PostMapping("/getArtistByUserId")
+    @PreAuthorize("hasRole('ARTIST')")
+    public ResponseEntity<?> getArtistByUserId(@RequestBody GetArtistByIdRequest getArtistByIdRequest) {
+        return ResponseEntity.ok().body( userService.getArtistById(getArtistByIdRequest.getUserId()));
     }
 
 }
