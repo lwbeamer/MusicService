@@ -25,34 +25,43 @@ public class ArtistController {
     }
 
     @GetMapping("/getOrganisation")
-    @PreAuthorize("hasRole('ARTIST') or hasRole('ADMIN')" )
+    @PreAuthorize("hasRole('ARTIST') or hasRole('ADMIN')")
     public ResponseEntity<?> getOrganisation() {
         return ResponseEntity.ok().body(artistService.getAllOrganisation());
     }
 
     @PostMapping("/addAlbum")
     @PreAuthorize("hasRole('ARTIST')")
-    public ResponseEntity<?> addAlbum(@RequestBody AlbumCreateRequest albumCreateRequest){
-        artistService.addAlbum(albumCreateRequest.getArtistNames(),albumCreateRequest.getName(),albumCreateRequest.getDescription(),albumCreateRequest.getLink());
+    public ResponseEntity<?> addAlbum(@RequestBody AlbumCreateRequest albumCreateRequest) {
+        artistService.addAlbum(albumCreateRequest.getArtistNames(), albumCreateRequest.getName(), albumCreateRequest.getDescription(), albumCreateRequest.getLink());
         return ResponseEntity.ok(new MessageResponse("Альбом добавлен!"));
     }
+
     @PostMapping("/setOragnisationToArtist")
     @PreAuthorize("hasRole('ARTIST')")
-    public ResponseEntity<?> setOrg(@RequestBody SetOrganisationRequest setOrganisationRequest){
-        artistService.setOrganisation(setOrganisationRequest.getUserId(),setOrganisationRequest.getOrgId());
+    public ResponseEntity<?> setOrg(@RequestBody SetOrganisationRequest setOrganisationRequest) {
+        artistService.setOrganisation(setOrganisationRequest.getUserId(), setOrganisationRequest.getOrgId());
         return ResponseEntity.ok(new MessageResponse("Вы успешно вступили в организацию!"));
     }
+
     @PostMapping("/quitFromOrganisation")
     @PreAuthorize("hasRole('ARTIST')")
-    public ResponseEntity<?> quitFromOrg(@RequestBody QuitFromOrgRequest quitFromOrgRequest){
+    public ResponseEntity<?> quitFromOrg(@RequestBody QuitFromOrgRequest quitFromOrgRequest) {
         artistService.quitFromOrganisation(quitFromOrgRequest.getUserId());
         return ResponseEntity.ok(new MessageResponse("Вы вышли из организации!"));
     }
 
     @PostMapping("/addSong")
     @PreAuthorize("hasRole('ARTIST')")
-    public ResponseEntity<?> addSong(@RequestBody SongCreateRequest songCreateRequest){
-        artistService.addSong(songCreateRequest.getArtistNames(),songCreateRequest.getFeaturesName(),songCreateRequest.getName(),songCreateRequest.getDuration(), songCreateRequest.getAlbumName(), songCreateRequest.getGenre(), songCreateRequest.getLink());
+    public ResponseEntity<?> addSong(@RequestBody SongCreateRequest songCreateRequest) {
+        artistService.addSong(songCreateRequest.getArtistNames(), songCreateRequest.getFeaturesName(), songCreateRequest.getName(), songCreateRequest.getDuration(), songCreateRequest.getAlbumName(), songCreateRequest.getGenre(), songCreateRequest.getLink());
         return ResponseEntity.ok(new MessageResponse("Песня добавлена!"));
     }
+
+    @PostMapping("/getAllAlbumsByArtistId")
+    @PreAuthorize("hasRole('ARTIST')")
+    public ResponseEntity<?> getAllAlbumsByArtistId(@RequestBody GetAlbumsByArtistIdRequest getAlbumsByArtistIdRequest) {
+        return ResponseEntity.ok().body(artistService.getAllAlbumsByArtistId(getAlbumsByArtistIdRequest.getArtistId()));
+    }
+
 }

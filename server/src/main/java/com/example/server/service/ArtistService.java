@@ -1,11 +1,13 @@
 package com.example.server.service;
 
+import com.example.server.dto.AlbumDTO;
 import com.example.server.entity.*;
 import com.example.server.repository.*;
 import com.example.server.service.serviceInterface.ArtistServiceInterface;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,5 +116,21 @@ public class ArtistService implements ArtistServiceInterface {
             artistRepository.save(artist);
         }
 
+    }
+
+    @Override
+    public List<AlbumDTO> getAllAlbumsByArtistId(Long artistId) {
+        List<Album> albums = albumRepository.getAllAlbumsByArtistId(artistId).get();
+        List<AlbumDTO> albumDTOS = new ArrayList<>();
+        AlbumDTO albumDTO;
+        for (Album i : albums) {
+            albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
+            albumDTO.setArtistNames(new ArrayList<>());
+            for (Artist k : i.getArtists()) {
+                albumDTO.getArtistNames().add(k.getName());
+            }
+            albumDTOS.add(albumDTO);
+        }
+        return albumDTOS;
     }
 }

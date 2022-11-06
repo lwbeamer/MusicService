@@ -34,4 +34,7 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
             "WHERE song.id_genre = :genreId\n" +
             "ORDER BY album.id DESC LIMIT :count\n", nativeQuery = true)
     Optional<List<Album>> findAllAlbumsByGenre(@Param("count") Long count, @Param("genreId") Long genreId);
+
+    @Query(value = "SELECT * FROM artists_albums WHERE id_artist= :artistId ",nativeQuery = true)
+    Optional<List<Album>> getAllAlbumsByArtistId(@Param("artistId") Long artistId);
 }
