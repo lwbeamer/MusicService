@@ -290,7 +290,7 @@ request :
             "genre" : "genre",  
             "link" : "link"  
         }  
-- Ну и при getAlbumById и getTrackById инфа чтоб новая была с artistsNames и featuresNames
+- Ну и при getAlbumById и getTrackById инфа чтоб новая была с artistsNames и featuresNames(сделал)
 - Получить все альбомы(album_id) по artist_id ну либо по user_id, но тогда с проверкой что он артист.
 - При добавлении трека в юхер плейлист проверять что его у него нет(сделал)
 - Убрать повторное создание плейлиста юзера
