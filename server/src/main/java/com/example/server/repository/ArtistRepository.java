@@ -13,7 +13,6 @@ import java.util.Optional;
 public interface ArtistRepository extends JpaRepository<Artist, Long> {
     Optional<Artist> findByUzerId(Uzer userId);
 
-    Optional<Artist> findByName(String name);
     @Query(value = "SELECT * FROM artist where upper(name) = upper(:name);" ,nativeQuery = true)
     Optional<Artist> findByNameWithoutRegister(@Param("name") String name);
 }

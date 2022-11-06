@@ -11,10 +11,6 @@ import java.util.List;
 public interface UserServiceInterface {
     void setSub(String login, String sub);
 
-    void addSongToPlayList(Long userId, Long songId);
-
-    List<SongDTO> getPlayList(Long userId);
-
     FindResponse findSong(String name);
 
     SongDTO getSong(Long songId);
@@ -41,12 +37,15 @@ public interface UserServiceInterface {
 
     UserAlbumsDTO getUserAlbum(Long userId);
 
-    void addSongToUserAlbum(Long songId,Long userId);
+    boolean addSongToUserAlbum(Long songId,Long userId);
 
     List<SongDTO> getUserAlbumSongs(Long userId);
 
     List<UserAlbumsDTO> getLastUserAlbums(Long count);
 
     void deleteSongFromPlaylist(Long userId,Long songId);
+
+    ArtistDTO getArtistById(Long userID);
+
 
 }

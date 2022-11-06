@@ -24,16 +24,6 @@ public class UserController {
         return ResponseEntity.ok(new MessageResponse("Подписка успешно обновлена!"));
     }
 
-    @PostMapping("/addSongToPlaylist")
-    public ResponseEntity<?> addSongToPlayList(@RequestBody CheckSongRequest checkSongRequest) {
-        userService.addSongToPlayList(checkSongRequest.getUserId(), checkSongRequest.getSongId());
-        return ResponseEntity.ok(new MessageResponse("Песня добавлена в плейлист!"));
-    }
-
-    @PostMapping("/getPlayList")
-    public ResponseEntity<?> getPlayList(@RequestBody GetPlayListRequest getPlayListRequest) {
-        return ResponseEntity.ok().body(userService.getPlayList(getPlayListRequest.getUserId()));
-    }
 
     @PostMapping("/findSongs")
     public ResponseEntity<?> findSongs(@RequestBody FindSongRequest findSongRequest) {
@@ -92,7 +82,7 @@ public class UserController {
 
     @PostMapping("/createUserAlbum")
     public ResponseEntity<?> createUserAlbum(@RequestBody CreateUserAlbumRequest createUserAlbumRequest) {
-        if(userService.createUserAlbum(createUserAlbumRequest.getImageLink(), createUserAlbumRequest.getName(), createUserAlbumRequest.getUserId())){
+        if (userService.createUserAlbum(createUserAlbumRequest.getImageLink(), createUserAlbumRequest.getName(), createUserAlbumRequest.getUserId())) {
             return ResponseEntity.ok().body("Успешно создан ");
         }
         return ResponseEntity.badRequest().body("Уже есть альбом");
@@ -105,8 +95,10 @@ public class UserController {
 
     @PostMapping("/addSongToUserAlbum")
     public ResponseEntity<?> addSongToUserAlbum(@RequestBody AddSongToUserAlbumRequest addSongToUserAlbumRequest) {
-        userService.addSongToUserAlbum(addSongToUserAlbumRequest.getSongId(), addSongToUserAlbumRequest.getUserId());
-        return ResponseEntity.ok().body("Песня успешно добавлена");
+        if (userService.addSongToUserAlbum(addSongToUserAlbumRequest.getSongId(), addSongToUserAlbumRequest.getUserId())) {
+            return ResponseEntity.ok().body("Песня успешно добавлена");
+        }
+        return ResponseEntity.badRequest().body("Песня уже была добавлена!");
     }
 
     @PostMapping("/getUserAlbumSongs")
@@ -120,8 +112,8 @@ public class UserController {
     }
 
     @PostMapping("/deleteSongFromUserAlbums")
-    public ResponseEntity<?> deleteSongFromUserAlbums(@RequestBody DeleteSongFromUserPlaylistRequest deleteSongFromUserPlaylistRequest){
-        userService.deleteSongFromPlaylist(deleteSongFromUserPlaylistRequest.getUserId(),deleteSongFromUserPlaylistRequest.getSongId());
+    public ResponseEntity<?> deleteSongFromUserAlbums(@RequestBody DeleteSongFromUserPlaylistRequest deleteSongFromUserPlaylistRequest) {
+        userService.deleteSongFromPlaylist(deleteSongFromUserPlaylistRequest.getUserId(), deleteSongFromUserPlaylistRequest.getSongId());
         return ResponseEntity.ok().body("Трек удален");
     }
 

@@ -48,9 +48,6 @@ public class Song {
     private Set<UserAlbums> userAlbums = new HashSet<>();
 
     @ManyToMany(mappedBy = "songs")
-    private Set<Uzer> users = new HashSet<>();
-
-    @ManyToMany(mappedBy = "songs")
     private Set<Artist> artists = new HashSet<>();
 
     public Song(String name, Long duration, Album albumId, Admin adminId, Genre genreId, String link) {

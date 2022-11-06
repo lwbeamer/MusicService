@@ -10,12 +10,12 @@ public interface ArtistServiceInterface {
 
     List<Organisation> getAllOrganisation();
 
-    void addAlbum(Long userId, String name, String description, String link);
+    void addAlbum(List<String> artistNames, String name, String description, String link);
 
     void setOrganisation(Long userId, Long orgId);
 
     void quitFromOrganisation(Long userId);
 
-    void addSong(Long userId, String name, Long duration, String albumName, String genre, String link);
+    void addSong(List<String> artistNames,List<String> featuresNames, String name, Long duration, String albumName, String genre, String link);
 
 }

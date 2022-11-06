@@ -49,32 +49,6 @@ public class UserService implements UserServiceInterface {
         }
     }
 
-    @Override
-    public void addSongToPlayList(Long userId, Long songId) {
-        Optional<Song> song = songRepository.findById(songId);
-        Optional<Uzer> user = userRepository.findById(userId);
-        if (user.isPresent() && song.isPresent()) {
-            user.get().getSongs().add(song.get());
-            userRepository.save(user.get());
-        }
-    }
-
-    @Override
-    public List<SongDTO> getPlayList(Long userId) {
-        Optional<List<Song>> songs = songRepository.getPlayList(userId);
-        List<SongDTO> songDTOS = new ArrayList<>();
-        if (songs.isPresent()) {
-            for (Song i : songs.get()) {
-                SongDTO son = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName(), i.getAlbumId().getLink());
-                for (Artist k : i.getArtists()) {
-                    son.getArtistNames().add(k.getName());
-                }
-                songDTOS.add(son);
-            }
-            return songDTOS;
-        }
-        return null;
-    }
 
     @Override
     public FindResponse findSong(String name) {
@@ -273,7 +247,7 @@ public class UserService implements UserServiceInterface {
     @Override
     public boolean createUserAlbum(String imageLink, String name, Long userId) {
         Uzer user = userRepository.findById(userId).get();
-        if (userRepository.checkExistAlbum(userId)){
+        if (userRepository.checkExistAlbum(userId)) {
             return false;
         }
         UserAlbums albums = new UserAlbums(name, imageLink, user);
@@ -290,12 +264,16 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public void addSongToUserAlbum(Long songId, Long userId) {
+    public boolean addSongToUserAlbum(Long songId, Long userId) {
         Uzer user = userRepository.findById(userId).get();
         UserAlbums userAlbums = userAlbumsRepository.findByUser(user).get();
         Song song = songRepository.findById(songId).get();
-        userAlbums.getSongs().add(song);
-        userAlbumsRepository.save(userAlbums);
+        if (userAlbumsRepository.checkIfExistSong(userAlbums.getId(), song.getId())) {
+            userAlbums.getSongs().add(song);
+            userAlbumsRepository.save(userAlbums);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -331,7 +309,20 @@ public class UserService implements UserServiceInterface {
     public void deleteSongFromPlaylist(Long userId, Long songId) {
         Uzer user = userRepository.findById(userId).get();
         UserAlbums userAlbums = userAlbumsRepository.findByUser(user).get();
-        userAlbumsRepository.deleteSongFromUserPlaylist(userAlbums.getId(),songId);
+        userAlbumsRepository.deleteSongFromUserPlaylist(userAlbums.getId(), songId);
+    }
+
+    @Override
+    public ArtistDTO getArtistById(Long userID) {
+        Uzer user = userRepository.findById(userID).get();
+        Artist artist = artistRepository.findByUzerId(user).get();
+        ArtistDTO artistDTO = new ArtistDTO(artist.getId(), artist.getUzerId().getId(), artist.getName(), artist.getDescription());
+        if (artist.getOrganisation() != null) {
+            artistDTO.setOrgId(artist.getOrganisation().getId());
+        } else {
+            artistDTO.setOrgId(null);
+        }
+        return artistDTO;
     }
 
 

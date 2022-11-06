@@ -17,14 +17,16 @@ public class ArtistService implements ArtistServiceInterface {
     private final UserRepository userRepository;
     private final GenreRepository genreRepository;
     private final OrganisationRepository organisationRepository;
+    private final SongRepository songRepository;
 
 
-    public ArtistService(ArtistRepository artistRepository, AlbumRepository albumRepository, UserRepository userRepository, GenreRepository genreRepository, OrganisationRepository organisationRepository) {
+    public ArtistService(ArtistRepository artistRepository, AlbumRepository albumRepository, UserRepository userRepository, GenreRepository genreRepository, OrganisationRepository organisationRepository, SongRepository songRepository) {
         this.artistRepository = artistRepository;
         this.albumRepository = albumRepository;
         this.userRepository = userRepository;
         this.genreRepository = genreRepository;
         this.organisationRepository = organisationRepository;
+        this.songRepository = songRepository;
     }
 
     @Override
@@ -46,18 +48,24 @@ public class ArtistService implements ArtistServiceInterface {
     }
 
     @Override
-    public void addAlbum(Long userId, String name, String description, String link) {
+    public void addAlbum(List<String> artistNames, String name, String description, String link) {
+        System.out.println(artistNames.get(0));
         Album album = new Album();
-        Optional<Uzer> user = userRepository.findById(userId);
-        Optional<Artist> artist = artistRepository.findByUzerId(user.get());
         album.setName(name);
         album.setType("Отсутствуют треки");
         album.setDescription(description);
         album.setLink(link);
-        artist.get().getAlbums().add(album);
-        album.getArtists().add(artist.get());
-        albumRepository.save(album);
-        artistRepository.save(artist.get());
+        for (int i = 0; i < artistNames.size(); i++) {
+            Artist artist = artistRepository.findByNameWithoutRegister(artistNames.get(i)).get();
+            if (i >= 1) {
+                artist.getAlbums().add(albumRepository.findByLink(link).get());
+            } else {
+                artist.getAlbums().add(album);
+
+            }
+            album.getArtists().add(artist);
+            artistRepository.save(artist);
+        }
     }
 
     @Override
@@ -78,14 +86,33 @@ public class ArtistService implements ArtistServiceInterface {
     }
 
     @Override
-    public void addSong(Long userId, String name, Long duration, String albumName, String genre, String link) {
-        Optional<Uzer> user = userRepository.findById(userId);
-        Optional<Artist> artist = artistRepository.findByUzerId(user.get());
-        Optional<Album> album = albumRepository.findById(Long.parseLong(albumRepository.getArtistAlbum(artist.get().getId(), albumName)));
-        Optional<Genre> genre1 = genreRepository.findByName(genre);
-        Song song = new Song(name, duration, album.get(), null, genre1.get(), link);
+    public void addSong(List<String> artistNames, List<String> featuresNames, String name, Long duration, String albumName, String genre, String link) {
+
+        Artist artist = artistRepository.findByNameWithoutRegister(artistNames.get(0)).get();
+        Album album = albumRepository.findById(Long.parseLong(albumRepository.getArtistAlbum(artist.getId(), albumName))).get();
+        Song song = new Song();
+        song.setLink(link);
+        song.setGenreId(genreRepository.findByName(genre).get());
+        song.setName(name);
+        song.setDuration(duration);
         song.setLast_change(OffsetDateTime.now());
-        artist.get().getSongs().add(song);
-        artistRepository.save(artist.get());
+        song.setAlbumId(album);
+        for (int i = 0; i < artistNames.size(); i++) {
+            artist = artistRepository.findByNameWithoutRegister(artistNames.get(0)).get();
+            if (i >= 1) {
+                artist.getSongs().add(songRepository.findByLink(link).get());
+            } else {
+                artist.getSongs().add(song);
+            }
+            song.getArtists().add(artist);
+            artistRepository.save(artist);
+        }
+        for (int i = 0; i < featuresNames.size(); i++) {
+            artist = artistRepository.findByNameWithoutRegister(featuresNames.get(0)).get();
+            artist.getSongs().add(songRepository.findByLink(link).get());
+            song.getArtists().add(artist);
+            artistRepository.save(artist);
+        }
+
     }
 }

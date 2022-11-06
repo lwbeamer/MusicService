@@ -41,14 +41,6 @@ BEGIN
 END
 $$;
 
-CREATE OR REPLACE PROCEDURE add_song_to_user_playlist(user_id INTEGER, song_id INTEGER)
-    LANGUAGE plpgsql AS
-$$
-BEGIN
-    INSERT INTO uzer_play_list(id_uzer, id_song)
-    VALUES (user_id, song_id);
-END
-$$;
 
 CREATE OR REPLACE PROCEDURE reset_user_sub(user_id INTEGER)
     LANGUAGE plpgsql AS

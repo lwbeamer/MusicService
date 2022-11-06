@@ -90,16 +90,3 @@ CREATE TABLE Song
     link       VARCHAR(256) NOT NULL UNIQUE
 );
 
--- CREATE TABLE Artists_Song
--- (
---     id_artist INTEGER REFERENCES Artist ON DELETE CASCADE ON UPDATE CASCADE,
---     id_song   INTEGER REFERENCES Song ON DELETE CASCADE ON UPDATE CASCADE,
---     PRIMARY KEY (id_artist, id_song)
--- );
-
--- CREATE TABLE Uzer_Play_list
--- (
---     id_uzer INTEGER REFERENCES Uzer ON DELETE CASCADE ON UPDATE CASCADE,
---     id_song INTEGER REFERENCES Song ON DELETE CASCADE ON UPDATE CASCADE,
---     PRIMARY KEY (id_uzer, id_song)
--- );

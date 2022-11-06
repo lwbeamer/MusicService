@@ -33,7 +33,7 @@ public class ArtistController {
     @PostMapping("/addAlbum")
     @PreAuthorize("hasRole('ARTIST')")
     public ResponseEntity<?> addAlbum(@RequestBody AlbumCreateRequest albumCreateRequest){
-        artistService.addAlbum(albumCreateRequest.getUserId(),albumCreateRequest.getName(),albumCreateRequest.getDescription(),albumCreateRequest.getLink());
+        artistService.addAlbum(albumCreateRequest.getArtistNames(),albumCreateRequest.getName(),albumCreateRequest.getDescription(),albumCreateRequest.getLink());
         return ResponseEntity.ok(new MessageResponse("Альбом добавлен!"));
     }
     @PostMapping("/setOragnisationToArtist")
@@ -52,7 +52,7 @@ public class ArtistController {
     @PostMapping("/addSong")
     @PreAuthorize("hasRole('ARTIST')")
     public ResponseEntity<?> addSong(@RequestBody SongCreateRequest songCreateRequest){
-        artistService.addSong(songCreateRequest.getUserId(),songCreateRequest.getName(),songCreateRequest.getDuration(), songCreateRequest.getAlbumName(), songCreateRequest.getGenre(), songCreateRequest.getLink());
+        artistService.addSong(songCreateRequest.getArtistNames(),songCreateRequest.getFeaturesName(),songCreateRequest.getName(),songCreateRequest.getDuration(), songCreateRequest.getAlbumName(), songCreateRequest.getGenre(), songCreateRequest.getLink());
         return ResponseEntity.ok(new MessageResponse("Песня добавлена!"));
     }
 }

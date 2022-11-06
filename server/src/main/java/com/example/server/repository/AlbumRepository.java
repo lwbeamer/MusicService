@@ -21,6 +21,8 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
     @Query(value = "SELECT * FROM (Select * FROM album ORDER BY id DESC LIMIT :count) albums ", nativeQuery = true)
     Optional<List<Album>> getLastAlbums(@Param("count") Long count);
 
+    Optional<Album> findByLink(String link);
+
     Optional<List<Album>> findAllByName(String name);
 
     @Query(value = "SELECT * FROM album where upper(name) = upper(:name)", nativeQuery = true)

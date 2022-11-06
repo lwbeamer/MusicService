@@ -24,4 +24,8 @@ public interface UserAlbumsRepository extends JpaRepository<UserAlbums, Long> {
     @Modifying
     @Query(value = "DELETE FROM uzer_albums_songs WHERE id_user_albums = :idUserAlbums and id_song = :songId", nativeQuery = true)
     void deleteSongFromUserPlaylist(@Param("idUserAlbums") Long idUserAlbums, @Param("songId") Long songId);
+
+    @Transactional
+    @Query(value = "SELECT EXISTS(SELECT * FROM uzer_albums_songs WHERE id_user_albums = :userAlbumId AND id_song = :songId) ", nativeQuery = true)
+    boolean checkIfExistSong(@Param("userAlbumId") Long userAlbumId, @Param("songId") Long songId);
 }
