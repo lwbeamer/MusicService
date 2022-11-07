@@ -3,6 +3,7 @@ package com.example.server.dto;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -27,5 +28,6 @@ public class SongDTO implements Serializable  {
         this.albumName = albumName;
         this.genreName = genreName;
         this.imageLink = imageLink;
+        this.artistNames = new ArrayList<>();
     }
 }
