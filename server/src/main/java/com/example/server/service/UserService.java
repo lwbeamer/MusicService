@@ -204,6 +204,8 @@ public class UserService implements UserServiceInterface {
         return genreDTOS;
     }
 
+
+
     @Override
     public List<CountryDTO> getAllCountry() {
         List<Country> countries = countryRepository.findAll();
@@ -228,7 +230,7 @@ public class UserService implements UserServiceInterface {
         Timestamp t = userRepository.getSubStart(userId);
         try {
             OffsetDateTime time = OffsetDateTime.ofInstant(t.toInstant(), ZoneId.of(String.valueOf(UTC)));
-            if (OffsetDateTime.now().getDayOfYear() > time.getDayOfYear()) {
+            if (OffsetDateTime.now().getDayOfYear() > time.getDayOfYear() + 30) {
                 return false;
             }
             return true;
