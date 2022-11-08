@@ -77,4 +77,21 @@ public class AdminService implements AdminServiceInterface {
         song.get().setAdminId(admin.get());
         songRepository.save(song.get());
     }
+
+    @Override
+    public void checkSongReject(Long userId, Long songId) {
+        Optional<Uzer> user = userRepository.findById(userId);
+        if (user.isEmpty()){
+            return;
+        }
+        Optional<Admin> admin = adminRepository.findByUzerId(user.get());
+        if (admin.isEmpty()){
+            return;
+        }
+        Optional<Song> song = songRepository.findById(songId);
+        if (song.isEmpty()){
+            return;
+        }
+        songRepository.delete(song.get());
+    }
 }

@@ -118,11 +118,10 @@ public class UserController {
         return ResponseEntity.ok().body("Трек удален");
     }
 
-
     @PostMapping("/getArtistByUserId")
     @PreAuthorize("hasRole('ARTIST')")
     public ResponseEntity<?> getArtistByUserId(@RequestBody GetArtistByIdRequest getArtistByIdRequest) {
-        return ResponseEntity.ok().body( userService.getArtistById(getArtistByIdRequest.getUserId()));
+        return ResponseEntity.ok().body(userService.getArtistById(getArtistByIdRequest.getUserId()));
     }
 
 }

@@ -43,5 +43,11 @@ public class AdminController {
         adminService.checkSong(checkSongRequest.getUserId(),checkSongRequest.getSongId());
         return ResponseEntity.ok(new MessageResponse("Трек успешно проверен!"));
     }
+    @PostMapping("/checkSongReject")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> checkSongReject(@RequestBody CheckSongRequest checkSongRequest) {
+        adminService.checkSongReject(checkSongRequest.getUserId(),checkSongRequest.getSongId());
+        return ResponseEntity.ok(new MessageResponse("Трек не одобрен!"));
+    }
 
 }

@@ -10,4 +10,6 @@ public interface AdminServiceInterface {
     List<SongDTO> getSongsForAdmin();
 
     void checkSong(Long userId, Long songId);
+
+    void checkSongReject(Long userId, Long songId);
 }
