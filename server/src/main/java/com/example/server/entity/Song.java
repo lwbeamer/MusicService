@@ -25,7 +25,7 @@ public class Song {
     @Column(nullable = false, length = 32)
     private String name;
 
-    @Column(nullable = false, length = 256)
+    @Column(nullable = false, length = 256,unique = true)
     private String link;
 
     @Column(name = "duration", nullable = false)
