@@ -25,13 +25,6 @@ CREATE TRIGGER check_artist_does_not_have_album_with_that_name
     ON artists_albums
     FOR EACH ROW EXECUTE PROCEDURE check_artist_does_not_have_album_with_that_name();
 
-DROP TRIGGER IF EXISTS check_user_has_sub ON uzer_play_list;
-CREATE TRIGGER check_user_has_sub
-    BEFORE INSERT
-    ON uzer_play_list
-    FOR EACH ROW EXECUTE PROCEDURE check_user_has_sub();
-
-
 DROP TRIGGER IF EXISTS correct_update_user_sub ON uzer;
 CREATE TRIGGER correct_update_user_sub
     BEFORE UPDATE

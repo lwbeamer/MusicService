@@ -1,6 +1,6 @@
 drop table admin, song, artists_song, uzer_play_list,
     genre, artists_albums, artist, album,
-    uzer, organisation, country, subscription,roles;
+    uzer, organisation, country, subscription,roles,user_albums,uzer_albums_songs;
 drop routine add_song_to_user_playlist(user_id integer, song_id integer);
 drop routine  set_song_add_date();
 drop routine set_album_type();

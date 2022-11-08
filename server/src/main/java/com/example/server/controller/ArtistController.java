@@ -32,7 +32,7 @@ public class ArtistController {
 
     @PostMapping("/addAlbum")
     @PreAuthorize("hasRole('ARTIST')")
-    public ResponseEntity<?> addAlbum(@RequestBody AlbumCreateRequest albumCreateRequest) {
+    public ResponseEntity<?> addAlbum(@RequestBody AlbumCreateRequest albumCreateRequest) throws CloneNotSupportedException {
         artistService.addAlbum(albumCreateRequest.getArtistNames(), albumCreateRequest.getName(), albumCreateRequest.getDescription(), albumCreateRequest.getLink());
         return ResponseEntity.ok(new MessageResponse("Альбом добавлен!"));
     }

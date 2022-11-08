@@ -38,4 +38,8 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
     @Transactional
     @Query(value = "SELECT * FROM album where id = ANY (SELECT id_album FROM artists_albums where id_artist = :artistId)", nativeQuery = true)
     Optional<List<Album>> getAllAlbumsByArtistId(@Param("artistId") Long artistId);
+    @Query(value = "SELECT album.id,album.description,album.name,album.type,album.link FROM album\n" +
+            "INNER JOIN artists_albums aa on album.id = aa.id_album\n" +
+            "WHERE aa.id_artist = :artistId and album.name = :albumName ",nativeQuery = true)
+    Optional<Album> getTogetherAlbum(@Param("artistId") Long artistId,@Param("albumName") String albumName);
 }

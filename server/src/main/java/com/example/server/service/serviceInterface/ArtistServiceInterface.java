@@ -11,7 +11,7 @@ public interface ArtistServiceInterface {
 
     List<Organisation> getAllOrganisation();
 
-    void addAlbum(List<String> artistNames, String name, String description, String link);
+    void addAlbum(List<String> artistNames, String name, String description, String link) throws CloneNotSupportedException;
 
     void setOrganisation(Long userId, Long orgId);
 

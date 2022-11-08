@@ -57,13 +57,14 @@ public class ArtistService implements ArtistServiceInterface {
         album.setType("Отсутствуют треки");
         album.setDescription(description);
         album.setLink(link);
+        Artist firstArtist = null;
         for (int i = 0; i < artistNames.size(); i++) {
             Artist artist = artistRepository.findByNameWithoutRegister(artistNames.get(i)).get();
             if (i >= 1) {
-                artist.getAlbums().add(albumRepository.findByLink(link).get());
+                artist.getAlbums().add(albumRepository.getTogetherAlbum(firstArtist.getId(), name).get());
             } else {
                 artist.getAlbums().add(album);
-
+                firstArtist = artist;
             }
             album.getArtists().add(artist);
             artistRepository.save(artist);
