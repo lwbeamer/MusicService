@@ -275,6 +275,16 @@ request :
 {  
     "userId" : userId   
 }  
+### 34)Получить все виды подписок
+requestType : GET  
+url : http://localhost:8080/api/user/getAllSubscriptions  
+### 35)Получить подписку по Id
+requestType : POST  
+url : http://localhost:8080/api/user/getSubscriptionBySubId  
+request :  
+{  
+    "subId" : subId   
+}  
 ## Нурик сделай (не удаляй сделанное а отметь чтоб удобнее было)
 ### Cписок в порядке от срочных до менее срочных
 - createSong не работает. всегда возвращает ошибку, но песню создаёт, но лишь с одним артистом (от которого реквест пришёл)(сделал)
