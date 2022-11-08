@@ -6,7 +6,9 @@ import lombok.Setter;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,7 +34,9 @@ public class Artist {
             inverseJoinColumns = {@JoinColumn(name = "id_album")}
     )
 
-    private Set<Album> albums = new HashSet<>();
+    private List<Album> albums = new ArrayList<>();
+
+
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "Artists_Song",
@@ -40,7 +44,7 @@ public class Artist {
             inverseJoinColumns = {@JoinColumn(name = "id_song")}
     )
 
-    private Set<Song> songs = new HashSet<>();
+    private List<Song> songs = new ArrayList<>();
     @Column(nullable = false, length = 256)
     private String description;
 

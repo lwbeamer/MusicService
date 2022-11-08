@@ -6,7 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,7 +28,7 @@ public class Album {
 
     @ManyToMany(mappedBy = "albums")
     @ToString.Exclude
-    private Set<Artist> artists = new HashSet<>();
+    private List<Artist> artists = new ArrayList<>();
 
     @Column(nullable = false, length = 32)
     private String name;

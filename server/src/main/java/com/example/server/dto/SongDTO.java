@@ -30,4 +30,8 @@ public class SongDTO implements Serializable  {
         this.imageLink = imageLink;
         this.artistNames = new ArrayList<>();
     }
+
+    public SongDTO() {
+
+    }
 }

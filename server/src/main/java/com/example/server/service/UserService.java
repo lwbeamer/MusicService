@@ -116,13 +116,15 @@ public class UserService implements UserServiceInterface {
     @Override
     public SongDTO getSong(Long songId) {
         Song song = songRepository.findById(songId).get();
-        SongDTO songDTO = new SongDTO(song.getId(), song.getName(), song.getLink(), song.getDuration(), song.getAlbumId().getName(), song.getGenreId().getName(), song.getAlbumId().getLink());
-        songDTO.setArtistNames(new ArrayList<>());
-        for (Artist i : song.getArtists()) {
-            songDTO.getArtistNames().add(i.getName());
+        if (song.getAdminId() != null) {
+            SongDTO songDTO = new SongDTO(song.getId(), song.getName(), song.getLink(), song.getDuration(), song.getAlbumId().getName(), song.getGenreId().getName(), song.getAlbumId().getLink());
+            songDTO.setArtistNames(new ArrayList<>());
+            for (Artist i : song.getArtists()) {
+                songDTO.getArtistNames().add(i.getName());
+            }
+            return songDTO;
         }
-        return songDTO;
-
+        return new SongDTO();
     }
 
     @Override
@@ -132,12 +134,14 @@ public class UserService implements UserServiceInterface {
         SongDTO songDTO;
         List<SongDTO> songDTOS = new ArrayList<>();
         for (Song i : songs) {
-            songDTO = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName(), i.getAlbumId().getLink());
-            songDTO.setArtistNames(new ArrayList<>());
-            for (Artist j : i.getArtists()) {
-                songDTO.getArtistNames().add(j.getName());
+            if (i.getAdminId() != null) {
+                songDTO = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName(), i.getAlbumId().getLink());
+                songDTO.setArtistNames(new ArrayList<>());
+                for (Artist j : i.getArtists()) {
+                    songDTO.getArtistNames().add(j.getName());
+                }
+                songDTOS.add(songDTO);
             }
-            songDTOS.add(songDTO);
         }
         return songDTOS;
 
@@ -251,7 +255,7 @@ public class UserService implements UserServiceInterface {
             return false;
         }
         UserAlbums albums = new UserAlbums(name, imageLink, user);
-        albums.setSongs(new HashSet<>());
+        albums.setSongs(new ArrayList<>());
         userAlbumsRepository.save(albums);
         return true;
     }

@@ -6,8 +6,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+
+import java.util.List;
+
 
 @Entity
 @Table(name = "song")
@@ -45,10 +47,10 @@ public class Song {
     private OffsetDateTime last_change;
 
     @ManyToMany(mappedBy = "songs")
-    private Set<UserAlbums> userAlbums = new HashSet<>();
+    private List<UserAlbums> userAlbums = new ArrayList<>();
 
     @ManyToMany(mappedBy = "songs")
-    private Set<Artist> artists = new HashSet<>();
+    private List<Artist> artists = new ArrayList<>();
 
     public Song(String name, Long duration, Album albumId, Admin adminId, Genre genreId, String link) {
         this.name = name;
