@@ -124,4 +124,13 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getArtistById(getArtistByIdRequest.getUserId()));
     }
 
+    @GetMapping("/getAllSubscriptions")
+    public ResponseEntity<?> getAllSubscriptions() {
+        return ResponseEntity.ok().body(userService.getAllSubs());
+    }
+
+    @PostMapping("/getSubscriptionBySubId")
+    public ResponseEntity<?> getSubscriptionBySubId(@RequestBody GetSubscriptionBySubIdRequest getSubscriptionBySubIdRequest) {
+        return ResponseEntity.ok().body(userService.getSubById(getSubscriptionBySubIdRequest.getSubId()));
+    }
 }

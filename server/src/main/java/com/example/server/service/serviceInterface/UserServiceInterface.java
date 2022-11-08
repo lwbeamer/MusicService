@@ -37,15 +37,19 @@ public interface UserServiceInterface {
 
     UserAlbumsDTO getUserAlbum(Long userId);
 
-    boolean addSongToUserAlbum(Long songId,Long userId);
+    boolean addSongToUserAlbum(Long songId, Long userId);
 
     List<SongDTO> getUserAlbumSongs(Long userId);
 
     List<UserAlbumsDTO> getLastUserAlbums(Long count);
 
-    void deleteSongFromPlaylist(Long userId,Long songId);
+    void deleteSongFromPlaylist(Long userId, Long songId);
 
     ArtistDTO getArtistById(Long userID);
+
+    List<SubscriptionDTO> getAllSubs();
+
+    SubscriptionDTO getSubById(Long subId);
 
 
 }

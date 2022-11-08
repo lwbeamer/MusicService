@@ -337,5 +337,21 @@ public class UserService implements UserServiceInterface {
         return artistDTO;
     }
 
+    @Override
+    public List<SubscriptionDTO> getAllSubs() {
+        List<Subscription> subscriptions = subscriptionRepository.findAll();
+        List<SubscriptionDTO> subscriptionDTOS = new ArrayList<>();
+        for (Subscription i : subscriptions) {
+            subscriptionDTOS.add(new SubscriptionDTO(i.getId(), i.getName(), i.getDescription(), i.getPrice()));
+        }
+        return subscriptionDTOS;
+    }
+
+    @Override
+    public SubscriptionDTO getSubById(Long subId) {
+        Subscription subscription = subscriptionRepository.findById(subId).get();
+        return new SubscriptionDTO(subscription.getId(),subscription.getName(),subscription.getDescription(),subscription.getPrice());
+    }
+
 
 }
