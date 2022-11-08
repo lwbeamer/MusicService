@@ -40,28 +40,13 @@ request :
     "login" : "Login",  
     "password" : "password"  
 }  
-### Добавление подписки пользователю
+### Проверка токена
 requestType : POST   
-url : http://localhost:8080/api/user/addSub  
+url : http://localhost:8080/api/auth/checkToken  
 request :  
 {  
-    "login" : "nik23",  
-    "sub" : "Студенческая"  
+    "token" : "token"  
 }  
-### Добавление артиста в базу(может только Admin)
-requestType : POST    
-url : http://localhost:8080/api/artist/addArtist  
-header : Authorization Bearer + token 
-request :  
-{  
-    "description" : "Описание артиста!",  
-    "login" : "login",  
-    "name" : "nickname"  
-}
-### Получить все организации(Получить список организация может Artist и Admin)
-requestType : GET  
-url : http://localhost:8080/api/artist/getOrganisation  
-header : Authorization Bearer + token  
 ### Добавить организацию(Создать организацию может только Admin)
 requestType : POST  
 url : http://localhost:8080/api/admin/addOrganisation  
@@ -72,13 +57,49 @@ request :
     "name" : "orgName",  
     "countryName" : "Россия"  
 }  
+### Получить песни на провекру(Получить может только Admin)
+requestType : GET  
+url : http://localhost:8080/api/admin/getSongsForAdmin  
+header : Authorization Bearer + token  
+### Проверить песню(Проверить может только Admin)
+requestType : POST  
+url : http://localhost:8080/api/admin/checkSong  
+header : Authorization Bearer + token  
+request :  
+{  
+    "userId" : userId,  
+    "songId" : songId  
+}  
+### Удалить проверяемую песню(Проверить может только Admin)
+requestType : POST  
+url : http://localhost:8080/api/admin/checkSongReject  
+header : Authorization Bearer + token  
+request :  
+{  
+    "userId" : userId,  
+    "songId" : songId  
+}  
+### Добавление артиста в базу(может только Admin)
+requestType : POST    
+url : http://localhost:8080/api/artist/addArtist  
+header : Authorization Bearer + token 
+request :  
+{  
+    "description" : "Описание артиста!",  
+    "login" : "login",  
+    "name" : "nickname"  
+}  
+### Получить все организации(Получить список организация может Artist и Admin)
+requestType : GET  
+url : http://localhost:8080/api/artist/getOrganisation  
+header : Authorization Bearer + token  
 ### Добавить альбом(Создать альбом может только Artist)
 requestType : POST  
 url : http://localhost:8080/api/artist/addAlbum  
 header : Authorization Bearer + token  
 request :  
 {  
-    "userId" : Id,  
+    "artistNames" : ["names","names"],  
     "name" : "name",  
     "description" : "description",  
     "link" : "link"  
@@ -106,43 +127,30 @@ url : http://localhost:8080/api/artist/addSong
 header : Authorization Bearer + token  
 request :  
 {   
-    "userId" : userId,  
+    "artistNames" : ["names","names"],  
+    "featuresName" : ["names","names"],  
     "name" : "name",  
     "duration" : duration,  
     "albumName" : "albumName",  
     "genre" : "genre",  
     "link" : "link"  
 }  
-### Получить песни на провекру(Получить может только Admin)
-requestType : GET  
-url : http://localhost:8080/api/admin/getSongsForAdmin  
-header : Authorization Bearer + token  
-### Проверить песню(Проверить может только Admin)
+### Получить все альбомы по artistId(Может только Artist)
 requestType : POST  
-url : http://localhost:8080/api/admin/checkSong  
+url : http://localhost:8080/api/artist/getAllAlbumsByArtistId  
 header : Authorization Bearer + token  
 request :  
-{  
-    "userId" : userId,  
-    "songId" : songId  
+{   
+    "artistId" : artistId  
 }  
-~~### Добавить песню в плэйлист
-requestType : POST  
-url : http://localhost:8080/api/user/addSongToPlaylist  
+### Добавление подписки пользователю
+requestType : POST   
+url : http://localhost:8080/api/user/addSub  
 request :  
 {  
-    "userId" : userId,  
-    "songId" : songId  
-}~~
-
-~~### Получить плэйлист
-requestType : POST  
-url : http://localhost:8080/api/user/getPlayList  
-request :  
-{  
-    "userId" : userId  
-}~~
-
+    "login" : "login",  
+    "sub" : "Студенческая"  
+}  
 ### Поиск песен
 requestType : POST  
 url : http://localhost:8080/api/user/findSongs  
@@ -150,20 +158,20 @@ request :
 {  
     "name" : "name"  
 }  
-### Получить песню
+### Получить песню по Id
 requestType : POST  
 url : http://localhost:8080/api/user/getSongById  
 request :  
 {  
     "songId" : songId  
 }  
-### Получить песни по album_id
+### Получить песни по AlbumId
 requestType : POST  
 url : http://localhost:8080/api/user/getSongByAlbumId  
 request :  
 {  
     "albumId" : albumId  
-} 
+}  
 ### Получить последние n альбомов
 requestType : POST  
 url : http://localhost:8080/api/user/getLastAlbums  
@@ -171,19 +179,19 @@ request :
 {  
     "count" : count  
 }  
+### Получить альбом по id
+requestType : POST  
+url : http://localhost:8080/api/user/getAlbumById  
+request :  
+{  
+    "albumId" : albumId  
+}  
 ### Получить альбом по song_id
 requestType : POST  
 url : http://localhost:8080/api/user/getAlbumBySongId  
 request :  
 {  
     "songId" : songId  
-}  
-### Проверить токен
-requestType : POST  
-url : http://localhost:8080/api/auth/checkToken  
-request :  
-{  
-    "token" : "token"  
 }  
 ### Получить все жанры песен
 requestType : GET  
@@ -214,7 +222,7 @@ request :
     "count" : count,  
     "genre" : "genreName"  
 }  
-### Создать пользовательский альбом
+### Создать плэйлист
 requestType : POST  
 url : http://localhost:8080/api/user/createUserAlbum  
 request :  
@@ -223,14 +231,14 @@ request :
     "name" : "name",  
     "userId" : userId  
 }  
-### Получить пользовательский альбом
+### Получить плэйлист
 requestType : POST  
 url : http://localhost:8080/api/user/getUserAlbum  
 request :  
 {  
     "userId" : userId  
 }  
-### Добавить песню в пользовательский альбом
+### Добавить песню в плэйлист
 requestType : POST  
 url : http://localhost:8080/api/user/addSongToUserAlbum  
 request :  
@@ -238,21 +246,21 @@ request :
     "userId" : userId,  
     "songId" : songId  
 }  
-### Получить песни из пользовательско альбома 
+### Получить песни из плэйлиста 
 requestType : POST  
 url : http://localhost:8080/api/user/getUserAlbumSongs  
 request :  
 {  
     "userId" : userId  
 }  
-### Получить n последних пользовательских альбома 
+### Получить n последних плэйлистов
 requestType : POST  
 url : http://localhost:8080/api/user/getLastUserAlbums  
 request :  
 {  
     "count" : count  
 }  
-### Удалить песню из пользовательского альбома
+### Удалить песню из плэйлиста
 requestType : POST  
 url : http://localhost:8080/api/user/deleteSongFromUserAlbums  
 request :  
@@ -260,12 +268,18 @@ request :
     "userId" : userId,  
     "songId" : songId  
 }  
+### Получить артиста по UserId
+requestType : POST  
+url : http://localhost:8080/api/user/getArtistByUserId  
+request :  
+{  
+    "userId" : userId   
+}  
 ## Нурик сделай (не удаляй сделанное а отметь чтоб удобнее было)
 ### Cписок в порядке от срочных до менее срочных
 - createSong не работает. всегда возвращает ошибку, но песню создаёт, но лишь с одним артистом (от которого реквест пришёл)(сделал)
-- Когда получаю альбом, где несколько исполнителей (на треке не проверял но подозреваю тоже самое) - имена артистов выдаются в одном порядке. При повторном получении в другом порядке. Сделай так чтобы порядок был чётко как при создании.
-- в getArtistByUserId помимо orgId выдай ещё orgName
-- Сделай так чтобы юзер никак не смог получить доступ до непроверенных треков (т.е. только админ мог получить). Будет заебись если сделаешь так, чтобы юзер не получил доступ до альбома, если ВСЕ треки там не проверенны.
-- Подобавляй сюда запросов, которых нет а то заебался лазить по бэку(
-
-- Админ может подтвердить песню. Сделай запрос чтобы он мог отклонить песню. Тогда она просто удалится из бдшек.
+- Когда получаю альбом, где несколько исполнителей (на треке не проверял но подозреваю тоже самое) - имена артистов выдаются в одном порядке. При повторном получении в другом порядке. Сделай так чтобы порядок был чётко как при создании.(сделал)
+- в getArtistByUserId помимо orgId выдай ещё orgName(сделал)
+- Сделай так чтобы юзер никак не смог получить доступ до непроверенных треков (т.е. только админ мог получить). Будет заебись если сделаешь так, чтобы юзер не получил доступ до альбома, если ВСЕ треки там не проверенны.(сделал)
+- Подобавляй сюда запросов, которых нет а то заебался лазить по бэку(сделал)
+- Админ может подтвердить песню. Сделай запрос чтобы он мог отклонить песню. Тогда она просто удалится из бдшек.(сделал)
