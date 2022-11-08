@@ -268,7 +268,7 @@ public class UserService implements UserServiceInterface {
         Uzer user = userRepository.findById(userId).get();
         UserAlbums userAlbums = userAlbumsRepository.findByUser(user).get();
         Song song = songRepository.findById(songId).get();
-        if (userAlbumsRepository.checkIfExistSong(userAlbums.getId(), song.getId())) {
+        if (!userAlbumsRepository.checkIfExistSong(userAlbums.getId(), song.getId())) {
             userAlbums.getSongs().add(song);
             userAlbumsRepository.save(userAlbums);
             return true;
