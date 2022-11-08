@@ -100,7 +100,7 @@ public class ArtistService implements ArtistServiceInterface {
         song.setLast_change(OffsetDateTime.now());
         song.setAlbumId(album);
         for (int i = 0; i < artistNames.size(); i++) {
-            artist = artistRepository.findByNameWithoutRegister(artistNames.get(0)).get();
+            artist = artistRepository.findByNameWithoutRegister(artistNames.get(i)).get();
             if (i >= 1) {
                 artist.getSongs().add(songRepository.findByLink(link).get());
             } else {
@@ -110,7 +110,7 @@ public class ArtistService implements ArtistServiceInterface {
             artistRepository.save(artist);
         }
         for (int i = 0; i < featuresNames.size(); i++) {
-            artist = artistRepository.findByNameWithoutRegister(featuresNames.get(0)).get();
+            artist = artistRepository.findByNameWithoutRegister(featuresNames.get(i)).get();
             artist.getSongs().add(songRepository.findByLink(link).get());
             song.getArtists().add(artist);
             artistRepository.save(artist);

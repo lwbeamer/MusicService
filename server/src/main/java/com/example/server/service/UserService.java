@@ -319,8 +319,10 @@ public class UserService implements UserServiceInterface {
         ArtistDTO artistDTO = new ArtistDTO(artist.getId(), artist.getUzerId().getId(), artist.getName(), artist.getDescription());
         if (artist.getOrganisation() != null) {
             artistDTO.setOrgId(artist.getOrganisation().getId());
+            artistDTO.setOrgName(artist.getOrganisation().getName());
         } else {
             artistDTO.setOrgId(null);
+            artistDTO.setOrgName(null);
         }
         return artistDTO;
     }

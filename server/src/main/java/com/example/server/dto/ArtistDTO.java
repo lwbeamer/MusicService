@@ -14,6 +14,7 @@ public class ArtistDTO {
     private String name;
     private String description;
     private Long orgId;
+    private String orgName;
 
     public ArtistDTO(Long id, Long userId, String name, String description) {
         this.id = id;
