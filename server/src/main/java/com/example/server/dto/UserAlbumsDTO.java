@@ -12,5 +12,6 @@ public class UserAlbumsDTO {
     private String imageLink;
     private String name;
     private Long userId;
-
+    private String userName;
+    private String userSurname;
 }

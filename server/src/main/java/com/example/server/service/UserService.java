@@ -282,7 +282,7 @@ public class UserService implements UserServiceInterface {
     public UserAlbumsDTO getUserAlbum(Long userId) {
         Uzer user = userRepository.findById(userId).get();
         UserAlbums userAlbums = userAlbumsRepository.findByUser(user).get();
-        return new UserAlbumsDTO(userAlbums.getId(), userAlbums.getImageLink(), userAlbums.getName(), userAlbums.getUser().getId());
+        return new UserAlbumsDTO(userAlbums.getId(), userAlbums.getImageLink(), userAlbums.getName(), userAlbums.getUser().getId(),userAlbums.getUser().getName(),userAlbums.getUser().getSurname());
     }
 
     @Override
@@ -321,7 +321,7 @@ public class UserService implements UserServiceInterface {
         List<UserAlbumsDTO> albumDTOS = new ArrayList<>();
         UserAlbumsDTO userAlbumsDTO;
         for (UserAlbums i : userAlbums) {
-            userAlbumsDTO = new UserAlbumsDTO(i.getId(), i.getImageLink(), i.getName(), i.getUser().getId());
+            userAlbumsDTO = new UserAlbumsDTO(i.getId(), i.getImageLink(), i.getName(), i.getUser().getId(),i.getUser().getName(),i.getUser().getSurname());
             albumDTOS.add(userAlbumsDTO);
         }
         return albumDTOS;
