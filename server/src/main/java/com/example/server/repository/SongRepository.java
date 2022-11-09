@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 
     Optional<List<Song>> findAllByAlbumId(Album albumId);
     @Modifying
+    @Transactional
     @Query(value = "DELETE FROM artists_song WHERE id_artist = :artistId and id_song = :songId",nativeQuery = true)
     void deleteArtistSong(@Param("artistId") Long artistId,@Param("songId") Long songId);
 }
