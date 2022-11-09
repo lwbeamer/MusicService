@@ -92,6 +92,9 @@ public class AdminService implements AdminServiceInterface {
         if (song.isEmpty()){
             return;
         }
+        for (Artist i: song.get().getArtists()){
+            songRepository.deleteArtistSong(i.getId(),song.get().getId());
+        }
         songRepository.delete(song.get());
     }
 }
