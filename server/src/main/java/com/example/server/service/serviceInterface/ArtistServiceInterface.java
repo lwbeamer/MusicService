@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface ArtistServiceInterface {
-    void addArtist(String description, String login, String name);
+    boolean addArtist(String description, String login, String name);
 
     List<Organisation> getAllOrganisation();
 

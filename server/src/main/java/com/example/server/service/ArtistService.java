@@ -2,6 +2,7 @@ package com.example.server.service;
 
 import com.example.server.dto.AlbumDTO;
 import com.example.server.entity.*;
+import com.example.server.entity.entityhelper.ERole;
 import com.example.server.repository.*;
 import com.example.server.service.serviceInterface.ArtistServiceInterface;
 import org.springframework.stereotype.Service;
@@ -32,15 +33,19 @@ public class ArtistService implements ArtistServiceInterface {
     }
 
     @Override
-    public void addArtist(String description, String login, String name) {
+    public boolean addArtist(String description, String login, String name) {
         Optional<Uzer> user = userRepository.findByLogin(login);
-        Artist artist = new Artist(name, description);
-        if (user.isPresent()) {
-            artist.setUzerId(user.get());
-            artistRepository.save(artist);
-        } else {
-            System.out.println("Не удалось добавить");
+        if (user.get().getRole().getName().equals(ERole.ROLE_ARTIST)) {
+            Artist artist = new Artist(name, description);
+            if (user.isPresent()) {
+                artist.setUzerId(user.get());
+                artistRepository.save(artist);
+            } else {
+                System.out.println("Не удалось добавить");
+            }
+            return true;
         }
+        return false;
 
     }
 

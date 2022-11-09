@@ -20,8 +20,10 @@ public class ArtistController {
     @PostMapping("/addArtist")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addArtist(@RequestBody ArtistRequest artistRequest) {
-        artistService.addArtist(artistRequest.getDescription(), artistRequest.getLogin(), artistRequest.getName());
-        return ResponseEntity.ok(new MessageResponse("Артист добавлен"));
+        if (artistService.addArtist(artistRequest.getDescription(), artistRequest.getLogin(), artistRequest.getName())) {
+            return ResponseEntity.ok(new MessageResponse("Артист добавлен"));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Артист не может быть с другой ролью!"));
     }
 
     @GetMapping("/getOrganisation")

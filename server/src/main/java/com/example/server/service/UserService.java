@@ -49,6 +49,15 @@ public class UserService implements UserServiceInterface {
         }
     }
 
+    public boolean allSongCheckedInAlbum(Album album) {
+        List<Song> songs = songRepository.findAllByAlbumId(album).get();
+        for (Song i : songs) {
+            if (i.getAdminId() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     @Override
     public FindResponse findSong(String name) {
@@ -56,7 +65,7 @@ public class UserService implements UserServiceInterface {
         List<SongDTO> songDTOS = new ArrayList<>();
         if (songs.isPresent()) {
             for (Song i : songs.get()) {
-                if (i.getAdminId() != null) {
+                if (allSongCheckedInAlbum(i.getAlbumId())) {
                     SongDTO son = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName(), i.getAlbumId().getLink());
                     son.setArtistNames(new ArrayList<>());
                     for (Artist k : i.getArtists()) {
@@ -70,7 +79,7 @@ public class UserService implements UserServiceInterface {
         List<AlbumDTO> albumDTOS = new ArrayList<>();
         if (albums.isPresent()) {
             for (Album i : albums.get()) {
-                if (getSongsById(i.getId()).size() != 0) {
+                if (allSongCheckedInAlbum(i)) {
                     AlbumDTO albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
                     albumDTO.setArtistNames(new ArrayList<>());
                     for (Artist k : i.getArtists()) {
@@ -85,7 +94,7 @@ public class UserService implements UserServiceInterface {
             List<Album> albumsArtist = new ArrayList<>(artist.get().getAlbums());
             List<AlbumDTO> albumDTOSArtist = new ArrayList<>();
             for (Album i : albumsArtist) {
-                if (getSongsById(i.getId()).size() != 0) {
+                if (allSongCheckedInAlbum(i)) {
                     AlbumDTO albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
                     albumDTO.setArtistNames(new ArrayList<>());
                     for (Artist k : i.getArtists()) {
@@ -98,7 +107,7 @@ public class UserService implements UserServiceInterface {
             List<Song> songsArtist = new ArrayList<>(artist.get().getSongs());
             List<SongDTO> songDTOSArtist = new ArrayList<>();
             for (Song i : songsArtist) {
-                if (i.getAdminId() != null) {
+                if (allSongCheckedInAlbum(i.getAlbumId())) {
                     SongDTO son = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName(), i.getAlbumId().getLink());
                     son.setArtistNames(new ArrayList<>());
                     for (Artist k : i.getArtists()) {
@@ -120,7 +129,7 @@ public class UserService implements UserServiceInterface {
     @Override
     public SongDTO getSong(Long songId) {
         Song song = songRepository.findById(songId).get();
-        if (song.getAdminId() != null) {
+        if (allSongCheckedInAlbum(song.getAlbumId())) {
             SongDTO songDTO = new SongDTO(song.getId(), song.getName(), song.getLink(), song.getDuration(), song.getAlbumId().getName(), song.getGenreId().getName(), song.getAlbumId().getLink());
             songDTO.setArtistNames(new ArrayList<>());
             for (Artist i : song.getArtists()) {
@@ -138,7 +147,7 @@ public class UserService implements UserServiceInterface {
         SongDTO songDTO;
         List<SongDTO> songDTOS = new ArrayList<>();
         for (Song i : songs) {
-            if (i.getAdminId() != null) {
+            if (allSongCheckedInAlbum(i.getAlbumId())) {
                 songDTO = new SongDTO(i.getId(), i.getName(), i.getLink(), i.getDuration(), i.getAlbumId().getName(), i.getGenreId().getName(), i.getAlbumId().getLink());
                 songDTO.setArtistNames(new ArrayList<>());
                 for (Artist j : i.getArtists()) {
@@ -156,7 +165,7 @@ public class UserService implements UserServiceInterface {
         List<Album> albums = albumRepository.getLastAlbums(count).get();
         List<AlbumDTO> albumDTOS = new ArrayList<>();
         for (Album i : albums) {
-            if (getSongsById(i.getId()).size() != 0) {
+            if (allSongCheckedInAlbum(i)) {
                 AlbumDTO albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
                 albumDTO.setArtistNames(new ArrayList<>());
                 for (Artist k : i.getArtists()) {
@@ -205,7 +214,6 @@ public class UserService implements UserServiceInterface {
     }
 
 
-
     @Override
     public List<CountryDTO> getAllCountry() {
         List<Country> countries = countryRepository.findAll();
@@ -246,12 +254,14 @@ public class UserService implements UserServiceInterface {
         List<AlbumDTO> albumDTOS = new ArrayList<>();
         AlbumDTO albumDTO;
         for (Album i : albums) {
-            albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
-            albumDTO.setArtistNames(new ArrayList<>());
-            for (Artist k : i.getArtists()) {
-                albumDTO.getArtistNames().add(k.getName());
+            if (allSongCheckedInAlbum(i)) {
+                albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
+                albumDTO.setArtistNames(new ArrayList<>());
+                for (Artist k : i.getArtists()) {
+                    albumDTO.getArtistNames().add(k.getName());
+                }
+                albumDTOS.add(albumDTO);
             }
-            albumDTOS.add(albumDTO);
         }
         return albumDTOS;
     }
@@ -352,7 +362,7 @@ public class UserService implements UserServiceInterface {
     @Override
     public SubscriptionDTO getSubById(Long subId) {
         Subscription subscription = subscriptionRepository.findById(subId).get();
-        return new SubscriptionDTO(subscription.getId(),subscription.getName(),subscription.getDescription(),subscription.getPrice());
+        return new SubscriptionDTO(subscription.getId(), subscription.getName(), subscription.getDescription(), subscription.getPrice());
     }
 
 
