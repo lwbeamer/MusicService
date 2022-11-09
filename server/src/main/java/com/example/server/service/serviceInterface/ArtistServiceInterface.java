@@ -17,7 +17,7 @@ public interface ArtistServiceInterface {
 
     void quitFromOrganisation(Long userId);
 
-    void addSong(List<String> artistNames, List<String> featuresNames, String name, Long duration, String albumName, String genre, String link);
+    boolean addSong(List<String> artistNames, List<String> featuresNames, String name, Long duration, String albumName, String genre, String link);
 
     List<AlbumDTO> getAllAlbumsByArtistId(Long artistId);
 }

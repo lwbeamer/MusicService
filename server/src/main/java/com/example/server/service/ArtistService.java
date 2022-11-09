@@ -94,7 +94,7 @@ public class ArtistService implements ArtistServiceInterface {
     }
 
     @Override
-    public void addSong(List<String> artistNames, List<String> featuresNames, String name, Long duration, String albumName, String genre, String link) {
+    public boolean addSong(List<String> artistNames, List<String> featuresNames, String name, Long duration, String albumName, String genre, String link) {
 
         Artist artist = artistRepository.findByNameWithoutRegister(artistNames.get(0)).get();
         Album album = albumRepository.findById(Long.parseLong(albumRepository.getArtistAlbum(artist.getId(), albumName))).get();
@@ -105,6 +105,16 @@ public class ArtistService implements ArtistServiceInterface {
         song.setDuration(duration);
         song.setLast_change(OffsetDateTime.now());
         song.setAlbumId(album);
+        for (int i = 0; i < artistNames.size(); i++) {
+            if (!artistRepository.findByNameWithoutRegister(artistNames.get(i)).isPresent()) {
+                return false;
+            }
+        }
+        for (int i = 0; i < featuresNames.size(); i++) {
+            if (!artistRepository.findByNameWithoutRegister(featuresNames.get(i)).isPresent()) {
+                return false;
+            }
+        }
         for (int i = 0; i < artistNames.size(); i++) {
             artist = artistRepository.findByNameWithoutRegister(artistNames.get(i)).get();
             if (i >= 1) {
@@ -121,7 +131,7 @@ public class ArtistService implements ArtistServiceInterface {
             song.getArtists().add(artist);
             artistRepository.save(artist);
         }
-
+        return true;
     }
 
     @Override

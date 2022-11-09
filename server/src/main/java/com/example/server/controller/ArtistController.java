@@ -56,8 +56,10 @@ public class ArtistController {
     @PostMapping("/addSong")
     @PreAuthorize("hasRole('ARTIST')")
     public ResponseEntity<?> addSong(@RequestBody SongCreateRequest songCreateRequest) {
-        artistService.addSong(songCreateRequest.getArtistNames(), songCreateRequest.getFeaturesName(), songCreateRequest.getName(), songCreateRequest.getDuration(), songCreateRequest.getAlbumName(), songCreateRequest.getGenre(), songCreateRequest.getLink());
-        return ResponseEntity.ok(new MessageResponse("Песня добавлена!"));
+        if (artistService.addSong(songCreateRequest.getArtistNames(), songCreateRequest.getFeaturesName(), songCreateRequest.getName(), songCreateRequest.getDuration(), songCreateRequest.getAlbumName(), songCreateRequest.getGenre(), songCreateRequest.getLink())){
+            return ResponseEntity.ok(new MessageResponse("Песня добавлена!"));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Такого артиста нет!"));
     }
 
     @PostMapping("/getAllAlbumsByArtistId")
