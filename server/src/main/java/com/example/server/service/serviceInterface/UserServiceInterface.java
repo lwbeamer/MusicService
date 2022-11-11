@@ -51,5 +51,7 @@ public interface UserServiceInterface {
 
     SubscriptionDTO getSubById(Long subId);
 
+    ArtistDTO getArtistIdByName(String name);
+
 
 }

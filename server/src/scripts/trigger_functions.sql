@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION set_album_type() RETURNS trigger AS
+CREATE OR REPLACE FUNCTION set_album_type_after_insert() RETURNS trigger AS
 $$
 declare
     COUNT INT;
@@ -11,6 +11,23 @@ BEGIN
     UPDATE album SET type = 'EP' WHERE (id = NEW.id_album AND COUNT > 1 AND COUNT <= 4);
     UPDATE album SET type = 'Альбом' WHERE (id = NEW.id_album AND COUNT > 4);
     return NEW;
+END
+$$
+    LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION set_album_type_after_delete() RETURNS trigger AS
+$$
+declare
+    COUNT INT;
+BEGIN
+    SELECT COUNT(*)
+    INTO COUNT
+    FROM song
+    WHERE id_album = OLD.id_album;
+    UPDATE album SET type = 'Сингл' WHERE (id = OLD.id_album AND COUNT = 1);
+    UPDATE album SET type = 'EP' WHERE (id = OLD.id_album AND COUNT > 1 AND COUNT <= 4);
+    UPDATE album SET type = 'Альбом' WHERE (id = OLD.id_album AND COUNT > 4);
+    return OLD;
 END
 $$
     LANGUAGE plpgsql;

@@ -63,9 +63,12 @@ public class ArtistController {
     }
 
     @PostMapping("/getAllAlbumsByArtistId")
-    @PreAuthorize("hasRole('ARTIST')")
+//    @PreAuthorize("hasRole('ARTIST')")
     public ResponseEntity<?> getAllAlbumsByArtistId(@RequestBody GetAlbumsByArtistIdRequest getAlbumsByArtistIdRequest) {
         return ResponseEntity.ok().body(artistService.getAllAlbumsByArtistId(getAlbumsByArtistIdRequest.getArtistId()));
     }
+
+
+
 
 }

@@ -1,9 +1,14 @@
-DROP TRIGGER IF EXISTS set_album_type ON song;
-CREATE TRIGGER set_album_type
-    AFTER INSERT OR DELETE
+DROP TRIGGER IF EXISTS set_album_type_after_insert ON song;
+CREATE TRIGGER set_album_type_after_insert
+    AFTER INSERT
     ON song
-    FOR EACH ROW EXECUTE PROCEDURE set_album_type();
+    FOR EACH ROW EXECUTE PROCEDURE set_album_type_after_insert();
 
+DROP TRIGGER IF EXISTS set_album_type_after_delete ON song;
+CREATE TRIGGER set_album_type_after_delete
+    AFTER DELETE
+    ON song
+    FOR EACH ROW EXECUTE PROCEDURE set_album_type_after_delete();
 
 DROP TRIGGER IF EXISTS set_song_add_date ON song;
 CREATE TRIGGER set_song_add_date

@@ -12,4 +12,6 @@ public interface AdminServiceInterface {
     void checkSong(Long userId, Long songId);
 
     void checkSongReject(Long userId, Long songId);
+
+    SongDTO getSong(Long songId);
 }

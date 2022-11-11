@@ -29,6 +29,19 @@ public class AdminService implements AdminServiceInterface {
     }
 
     @Override
+    public SongDTO getSong(Long songId) {
+        Song song = songRepository.findById(songId).get();
+            SongDTO songDTO = new SongDTO(song.getId(), song.getName(), song.getLink(), song.getDuration(), song.getAlbumId().getName(), song.getGenreId().getName(), song.getAlbumId().getLink());
+            songDTO.setArtistNames(new ArrayList<>());
+            for (Artist i : song.getArtists()) {
+                songDTO.getArtistNames().add(i.getName());
+            }
+            return songDTO;
+
+    }
+
+
+    @Override
     public int createOrganisation(String description, String name, String countryName) {
         Optional<Country> country = countryRepository.findByName(countryName);
         Organisation organisation = new Organisation(name, description);

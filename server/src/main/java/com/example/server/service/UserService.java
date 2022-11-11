@@ -365,5 +365,11 @@ public class UserService implements UserServiceInterface {
         return new SubscriptionDTO(subscription.getId(), subscription.getName(), subscription.getDescription(), subscription.getPrice());
     }
 
+    @Override
+    public ArtistDTO getArtistIdByName(String name) {
+        Artist artist = artistRepository.findByName(name).get();
+        ArtistDTO artistDTO = new ArtistDTO(artist.getId(), artist.getUzerId().getId(), artist.getName(), artist.getDescription(), artist.getUzerId().getLink());
 
+        return artistDTO;
+    }
 }

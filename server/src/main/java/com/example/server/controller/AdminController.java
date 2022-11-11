@@ -1,6 +1,7 @@
 package com.example.server.controller;
 
 import com.example.server.request.CheckSongRequest;
+import com.example.server.request.GetSongRequest;
 import com.example.server.request.OrgRequest;
 import com.example.server.response.MessageResponse;
 import com.example.server.service.serviceInterface.AdminServiceInterface;
@@ -49,5 +50,6 @@ public class AdminController {
         adminService.checkSongReject(checkSongRequest.getUserId(),checkSongRequest.getSongId());
         return ResponseEntity.ok(new MessageResponse("Трек не одобрен!"));
     }
+
 
 }

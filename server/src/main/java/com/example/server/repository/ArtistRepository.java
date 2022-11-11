@@ -15,4 +15,6 @@ public interface ArtistRepository extends JpaRepository<Artist, Long> {
 
     @Query(value = "SELECT * FROM artist where upper(name) = upper(:name);" ,nativeQuery = true)
     Optional<Artist> findByNameWithoutRegister(@Param("name") String name);
+
+    Optional<Artist> findByName(String name);
 }
