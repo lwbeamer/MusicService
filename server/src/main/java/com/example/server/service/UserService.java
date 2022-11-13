@@ -166,12 +166,14 @@ public class UserService implements UserServiceInterface {
         List<AlbumDTO> albumDTOS = new ArrayList<>();
         for (Album i : albums) {
             if (allSongCheckedInAlbum(i)) {
-                AlbumDTO albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
-                albumDTO.setArtistNames(new ArrayList<>());
-                for (Artist k : i.getArtists()) {
-                    albumDTO.getArtistNames().add(k.getName());
+                if (!getSongsById(i.getId()).isEmpty()) {
+                    AlbumDTO albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
+                    albumDTO.setArtistNames(new ArrayList<>());
+                    for (Artist k : i.getArtists()) {
+                        albumDTO.getArtistNames().add(k.getName());
+                    }
+                    albumDTOS.add(albumDTO);
                 }
-                albumDTOS.add(albumDTO);
             }
         }
         return albumDTOS;
