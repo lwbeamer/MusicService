@@ -79,7 +79,7 @@ public class UserService implements UserServiceInterface {
         List<AlbumDTO> albumDTOS = new ArrayList<>();
         if (albums.isPresent()) {
             for (Album i : albums.get()) {
-                if (allSongCheckedInAlbum(i)) {
+                if (allSongCheckedInAlbum(i) && getSongsById(i.getId()).size()!=0) {
                     AlbumDTO albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
                     albumDTO.setArtistNames(new ArrayList<>());
                     for (Artist k : i.getArtists()) {
@@ -94,7 +94,7 @@ public class UserService implements UserServiceInterface {
             List<Album> albumsArtist = new ArrayList<>(artist.get().getAlbums());
             List<AlbumDTO> albumDTOSArtist = new ArrayList<>();
             for (Album i : albumsArtist) {
-                if (allSongCheckedInAlbum(i)) {
+                if (allSongCheckedInAlbum(i) && getSongsById(i.getId()).size()!=0) {
                     AlbumDTO albumDTO = new AlbumDTO(i.getId(), i.getType(), i.getName(), i.getDescription(), i.getLink());
                     albumDTO.setArtistNames(new ArrayList<>());
                     for (Artist k : i.getArtists()) {
